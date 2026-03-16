@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMP Negeri 3 Aesesa – Sekolah Menengah Pertama</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --teal:        #0A7C6E;
+  --teal-light:  #0E9E8C;
+  --teal-pale:   #E6F5F3;
+  --teal-mid:    #B2DDD8;
+  --navy:        #0D2B3E;
+  --navy-mid:    #1A4A62;
+  --red:         #C0392B;
+  --amber:       #D97706;
+  --bg:          #F7F9FB;
+  --surface:     #FFFFFF;
+  --surface-2:   #F0F4F7;
+  --border:      #DDE5EC;
+  --border-dark: #B8C8D4;
+  --text:        #0D2B3E;
+  --text-body:   #2C4A5E;
+  --text-muted:  #5E7A8E;
+  --text-light:  #94AABB;
+  --shadow-sm:   0 1px 4px rgba(13,43,62,0.07);
+  --shadow-md:   0 4px 16px rgba(13,43,62,0.10);
+  --shadow-lg:   0 8px 32px rgba(13,43,62,0.13);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+  background: var(--navy); color: white;
+  padding: 0.85rem 1.3rem; border-radius: 8px;
+  font-size: 0.82rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.6rem;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(120%); opacity: 0;
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+  max-width: 300px; border-left: 3px solid var(--teal-light);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  background: rgba(247,249,251,0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+nav.scrolled {
+  height: 58px;
+  background: rgba(255,255,255,0.98);
+  box-shadow: var(--shadow-md);
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo-box {
+  width: 38px; height: 38px;
+  background: var(--teal);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(10,124,110,0.3);
+}
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.01em;
+}
+.nav-brand-sub {
+  font-size: 0.67rem; font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.8rem; font-weight: 500;
+  color: var(--text-muted); text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 2px; background: var(--teal);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s;
+  border-radius: 1px;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  background: var(--teal) !important; color: white !important;
+  padding: 7px 18px; border-radius: 6px;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.2s !important;
+}
+.nav-cta:hover { background: var(--teal-light) !important; transform: translateY(-1px); }
+.nav-cta::after { display: none !important; }
+.nav-status {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--text-light); transition: background 0.3s;
+  cursor: help;
+}
+.nav-status.connected { background: #10B981; box-shadow: 0 0 6px #10B981; }
+.nav-status.loading { background: var(--amber); animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding-top: 68px;
+  position: relative;
+  display: flex; align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #F0F6FA 0%, #E8F4F1 40%, #F5F9FC 100%);
+}
+.hero-geo {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.hero-geo-circle-1 {
+  position: absolute; top: -120px; right: -80px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,124,110,0.08) 0%, transparent 70%);
+}
+.hero-geo-circle-2 {
+  position: absolute; bottom: -100px; left: -60px;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(13,43,62,0.05) 0%, transparent 70%);
+}
+.hero-geo-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(10,124,110,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,124,110,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-geo-accent {
+  position: absolute; top: 0; right: 0;
+  width: 40%; height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(10,124,110,0.04) 100%);
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 4rem 3rem;
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--teal-pale); color: var(--teal);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 5px 12px;
+  border-radius: 20px; border: 1px solid var(--teal-mid);
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 900; line-height: 1.1;
+  color: var(--navy); margin-bottom: 1rem;
+  opacity: 0; animation: fadeUp 0.8s 0.35s ease both;
+}
+.hero-title em { font-style: italic; color: var(--teal); }
+.hero-desc {
+  font-size: 1.05rem; line-height: 1.8; color: var(--text-body);
+  max-width: 480px; margin-bottom: 2.2rem;
+  opacity: 0; animation: fadeUp 0.8s 0.5s ease both;
+}
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.8s 0.65s ease both;
+}
+.btn-primary {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  background: var(--teal); color: white;
+  padding: 12px 28px; border-radius: 8px; border: none;
+  cursor: pointer; text-decoration: none; letter-spacing: 0.02em;
+  transition: all 0.25s;
+  box-shadow: 0 4px 14px rgba(10,124,110,0.3);
+}
+.btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,124,110,0.4); }
+.btn-outline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  background: white; color: var(--navy);
+  padding: 11px 28px; border-radius: 8px;
+  border: 1.5px solid var(--border-dark);
+  cursor: pointer; text-decoration: none; letter-spacing: 0.02em;
+  transition: all 0.25s;
+}
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
+.hero-stats {
+  display: flex; gap: 2rem; margin-top: 2.5rem;
+  padding-top: 2rem; border-top: 1px solid var(--border);
+  opacity: 0; animation: fadeUp 0.8s 0.8s ease both;
+}
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1;
+}
+.hero-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+  opacity: 0; animation: fadeRight 0.9s 0.4s ease both;
+}
+@keyframes fadeRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+.hero-card-main {
+  background: white; border-radius: 16px;
+  padding: 2rem; box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.hero-card-main::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--teal-light));
+}
+.school-emblem {
+  width: 100%; aspect-ratio: 1;
+  max-width: 220px; margin: 0 auto 1.5rem;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--teal-pale), #E0F0EE);
+  border-radius: 50%; font-size: 5rem;
+  border: 3px solid var(--teal-mid);
+}
+.hero-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 700; color: var(--navy);
+  text-align: center; margin-bottom: 0.3rem;
+}
+.hero-card-sub { font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem; }
+.hero-card-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+.pill {
+  font-size: 0.7rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 12px; letter-spacing: 0.04em;
+}
+.pill-teal { background: var(--teal-pale); color: var(--teal); border: 1px solid var(--teal-mid); }
+.pill-navy { background: #E8EEF4; color: var(--navy-mid); border: 1px solid #C4D0DC; }
+.pill-amber { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+/* floating mini-cards */
+.hero-mini-card {
+  position: absolute; background: white; border-radius: 10px;
+  padding: 0.7rem 1rem; box-shadow: var(--shadow-md);
+  border: 1px solid var(--border); font-size: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.hero-mini-1 { top: -16px; right: -16px; }
+.hero-mini-2 { bottom: 20px; left: -20px; }
+.hero-mini-icon { font-size: 1.2rem; }
+.hero-mini-label { font-weight: 600; color: var(--text); }
+.hero-mini-sub { color: var(--text-muted); font-size: 0.68rem; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── TICKER ── */
+.news-ticker {
+  background: var(--navy);
+  padding: 10px 0; overflow: hidden; position: relative;
+}
+.news-ticker::before,.news-ticker::after {
+  content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2;
+}
+.news-ticker::before { left:0; background: linear-gradient(to right, var(--navy), transparent); }
+.news-ticker::after  { right:0; background: linear-gradient(to left, var(--navy), transparent); }
+.ticker-label {
+  position: absolute; left: 0; top: 0; bottom: 0; z-index: 3;
+  background: var(--teal); padding: 0 16px;
+  display: flex; align-items: center;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: white; white-space: nowrap;
+}
+.ticker-wrap { padding-left: 100px; overflow: hidden; }
+.ticker-inner {
+  display: flex; align-items: center; white-space: nowrap;
+  animation: ticker 35s linear infinite;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  font-size: 0.8rem; color: rgba(255,255,255,0.85);
+  padding: 0 2.5rem;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+}
+.ticker-sep { color: var(--teal-light); opacity: 0.6; }
+
+/* ── SECTIONS ── */
+section { padding: 5rem 3rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 0.7rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-eyebrow::before { content:''; width:20px; height:2px; background:var(--teal); border-radius:1px; }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 700; color: var(--navy);
+  line-height: 1.2; margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--teal); }
+.section-desc { font-size: 1rem; line-height: 1.75; color: var(--text-body); max-width: 560px; }
+.section-header { margin-bottom: 3rem; }
+
+/* ── PROFIL SEKOLAH ── */
+#profil { background: white; }
+.profil-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+.profil-visual { position: relative; }
+.profil-img-frame {
+  background: linear-gradient(135deg, var(--teal-pale), #DCF0ED);
+  border-radius: 16px; aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 6rem; border: 1px solid var(--teal-mid);
+  position: relative; overflow: hidden;
+}
+.profil-img-frame::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(to top, rgba(10,124,110,0.1), transparent);
+}
+.profil-accent-card {
+  position: absolute; bottom: -20px; right: -20px;
+  background: white; border-radius: 12px; padding: 1.2rem 1.5rem;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  text-align: center;
+}
+.profil-accent-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1; }
+.profil-accent-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+.profil-info p { font-size: 1rem; line-height: 1.8; color: var(--text-body); margin-bottom: 1.2rem; }
+.profil-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.profil-detail-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem;
+}
+.profil-detail-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+.profil-detail-value { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+.profil-stats { display: flex; gap: 2rem; margin-top: 2rem; }
+.profil-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1; }
+.profil-stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+/* ── PENGUMUMAN ── */
+#pengumuman { background: var(--bg); }
+.pengumuman-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+.pengumuman-list { display: flex; flex-direction: column; gap: 0; }
+.pengumuman-item {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.8rem 0; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: all 0.2s;
+}
+.pengumuman-item:first-child { border-top: 1px solid var(--border); }
+.pengumuman-item:hover { padding-left: 8px; }
+.pengumuman-item:hover .pengumuman-title { color: var(--teal); }
+.pengumuman-date-box {
+  background: var(--teal); color: white;
+  border-radius: 8px; padding: 0.7rem 0.8rem;
+  text-align: center; flex-shrink: 0; min-width: 52px;
+}
+.pengumuman-date-day { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; line-height: 1; }
+.pengumuman-date-mon { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; opacity: 0.85; }
+.pengumuman-content { flex: 1; }
+.pengumuman-category {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal); background: var(--teal-pale);
+  padding: 2px 8px; border-radius: 4px; border: 1px solid var(--teal-mid);
+  display: inline-block; margin-bottom: 0.4rem;
+}
+.pengumuman-title { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; line-height: 1.4; transition: color 0.2s; }
+.pengumuman-body { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+/* Sidebar */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+.sidebar-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-sm); }
+.sidebar-card-title {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--navy);
+  margin-bottom: 1.2rem; padding-bottom: 0.7rem;
+  border-bottom: 2px solid var(--teal-pale);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.info-row { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.6rem 0; border-bottom: 1px solid var(--surface-2); }
+.info-row:last-child { border-bottom: none; }
+.info-row-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.info-row-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.info-row-value { font-size: 0.88rem; color: var(--text); line-height: 1.4; }
+.link-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.7rem 1rem; border-radius: 7px; border: 1px solid var(--border);
+  text-decoration: none; color: var(--text-body); font-size: 0.82rem; font-weight: 500;
+  transition: all 0.2s; margin-top: 0.5rem;
+  background: var(--bg);
+}
+.link-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
+.link-btn span { font-size: 0.7rem; }
+
+/* ── PROGRAM / EKSTRAKURIKULER ── */
+#program { background: white; }
+.program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.program-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  transition: all 0.3s; cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+.program-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--teal-mid); }
+.program-thumb {
+  height: 140px; display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem; position: relative;
+}
+.program-thumb::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.6) 100%);
+}
+.program-body { padding: 1.2rem; }
+.program-tag { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+.program-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; line-height: 1.3; }
+.program-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.8rem; }
+.program-meta { font-size: 0.72rem; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+
+/* ── PRESTASI ── */
+#prestasi { background: var(--navy); }
+#prestasi .section-eyebrow { color: var(--teal-light); }
+#prestasi .section-eyebrow::before { background: var(--teal-light); }
+#prestasi .section-title { color: white; }
+#prestasi .section-title em { color: var(--teal-light); }
+.prestasi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.prestasi-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 1.8rem 1.5rem; text-align: center;
+  transition: all 0.3s;
+}
+.prestasi-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(14,158,140,0.5); transform: translateY(-3px); }
+.prestasi-medal { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+.prestasi-event { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.5rem; }
+.prestasi-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.4rem; line-height: 1.3; }
+.prestasi-info { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+
+/* ── GALERI ── */
+#galeri { background: var(--bg); }
+.galeri-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 180px);
+  gap: 10px; margin-top: 2.5rem;
+}
+.galeri-item {
+  border-radius: 10px; overflow: hidden; position: relative;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.galeri-item:hover { transform: scale(1.02); box-shadow: var(--shadow-lg); z-index: 1; }
+.galeri-item.wide { grid-column: span 2; }
+.galeri-item.tall { grid-row: span 2; }
+.galeri-item.wide.tall { grid-column: span 2; grid-row: span 2; }
+.galeri-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,43,62,0.7) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 0.9rem; }
+.galeri-item:hover .galeri-overlay { opacity: 1; }
+.galeri-overlay-text { font-size: 0.8rem; color: white; font-weight: 500; }
+
+/* ── GURU & STAFF ── */
+#guru { background: white; }
+.guru-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.guru-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; text-align: center;
+  transition: all 0.3s;
+}
+.guru-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--teal-mid); }
+.guru-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--teal-pale); border: 3px solid var(--teal-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; margin: 1.5rem auto 1rem;
+}
+.guru-name { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+.guru-jabatan { font-size: 0.73rem; color: var(--teal); font-weight: 600; margin-bottom: 0.2rem; }
+.guru-mapel { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+
+/* ── KONTAK ── */
+#kontak { background: var(--bg); }
+.kontak-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+.kontak-info { display: flex; flex-direction: column; gap: 1.2rem; }
+.kontak-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1.2rem; background: white;
+  border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: var(--shadow-sm); transition: all 0.2s;
+}
+.kontak-item:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
+.kontak-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--teal-pale); border: 1px solid var(--teal-mid);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.kontak-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem; }
+.kontak-value { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.4; }
+.form-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; box-shadow: var(--shadow-md); }
+.form-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
+.form-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.form-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.form-input, .form-select, .form-textarea {
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--teal); background: white; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text-light); }
+.form-textarea { resize: none; }
+
+/* ── FOOTER ── */
+footer { background: var(--navy); padding: 4rem 3rem 2rem; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2rem; }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+.footer-brand-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
+.footer-desc { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.5); }
+.footer-col-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1.2rem; }
+.footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-links a { font-size: 0.85rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+.footer-social { display: flex; gap: 0.8rem; }
+.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: all 0.2s; }
+.footer-social a:hover { border-color: var(--teal-light); color: var(--teal-light); background: rgba(14,158,140,0.1); }
+
+
+/* ── SKELETON ── */
+@keyframes shimmer {
+  0% { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+.skel {
+  background: linear-gradient(90deg, rgba(13,43,62,0.05) 25%, rgba(13,43,62,0.1) 50%, rgba(13,43,62,0.05) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 1.2rem; }
+  .nav-links { display: none; }
+  section { padding: 3.5rem 1.2rem; }
+  .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+  .hero-visual { max-width: 320px; margin: 0 auto; }
+  .hero-stats { justify-content: center; }
+  .profil-grid, .kontak-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .program-grid { grid-template-columns: 1fr 1fr; }
+  .prestasi-grid { grid-template-columns: 1fr 1fr; }
+  .guru-grid { grid-template-columns: 1fr 1fr; }
+  .galeri-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
+  .galeri-item.wide, .galeri-item.tall, .galeri-item.wide.tall { grid-column: span 1; grid-row: span 1; }
+  .pengumuman-layout { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { padding: 3rem 1.2rem 2rem; }
+}
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"><span id="toast-icon">📡</span><span id="toast-msg">Menghubungkan...</span></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#" class="nav-brand">
+    <div class="nav-logo-box">🎓</div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name" id="nav-nama-sekolah">SMPN 3 Aesesa</div>
+      <div class="nav-brand-sub">Sekolah Menengah Pertama Negeri</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#pengumuman">Pengumuman</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#prestasi">Prestasi</a></li>
+    <li><a href="#guru">Guru & Staff</a></li>
+    <li><a href="#kontak" class="nav-cta">Kontak</a></li>
+    <li><div class="nav-status disconnected" id="gs-dot" title="Status koneksi Google Sheets"></div></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-geo">
+    <div class="hero-geo-circle-1"></div>
+    <div class="hero-geo-circle-2"></div>
+    <div class="hero-geo-lines"></div>
+    <div class="hero-geo-accent"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge"><span></span> <span id="hero-akreditasi">Akreditasi A</span></div>
+      <h1 class="hero-title" id="hero-title">
+        SMP Negeri 3<br><em>Aesesa</em>
+      </h1>
+      <p class="hero-desc" id="hero-desc">
+        Membentuk generasi cerdas, berkarakter, dan berdaya saing tinggi melalui pendidikan berkualitas di Kabupaten Nagekeo, Nusa Tenggara Timur.
+      </p>
+      <div class="hero-actions">
+        <a href="#pengumuman" class="btn-primary">Pengumuman Terbaru</a>
+        <a href="#profil" class="btn-outline">Profil Sekolah</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-siswa">450+</div>
+          <div class="hero-stat-label">Siswa Aktif</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-guru">32</div>
+          <div class="hero-stat-label">Tenaga Pengajar</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-tahun">25+</div>
+          <div class="hero-stat-label">Tahun Berdiri</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-main">
+        <div class="school-emblem">🏫</div>
+        <div class="hero-card-name" id="hero-card-nama">SMP Negeri 3 Aesesa</div>
+        <div class="hero-card-sub" id="hero-card-alamat">Kabupaten Nagekeo, NTT</div>
+        <div class="hero-card-pills">
+          <span class="pill pill-teal">Terakreditasi A</span>
+          <span class="pill pill-navy">Negeri</span>
+          <span class="pill pill-amber">NTT</span>
+        </div>
+      </div>
+      <div class="hero-mini-card hero-mini-1">
+        <span class="hero-mini-icon">🏆</span>
+        <div><div class="hero-mini-label" id="hero-mini-prestasi">15+ Prestasi</div><div class="hero-mini-sub">Tahun 2024</div></div>
+      </div>
+      <div class="hero-mini-card hero-mini-2">
+        <span class="hero-mini-icon">📚</span>
+        <div><div class="hero-mini-label">Kurikulum Merdeka</div><div class="hero-mini-sub">Implementasi Penuh</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWS TICKER ── -->
+<div class="news-ticker">
+  <div class="ticker-label">📢 INFO</div>
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker-inner">
+      <span class="ticker-item"><span class="ticker-sep">◆</span> Memuat pengumuman terbaru...</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROFIL ── -->
+<section id="profil">
+  <div class="section-inner">
+    <div class="profil-grid">
+      <div class="profil-visual reveal">
+        <div class="profil-img-frame">🏫</div>
+        <div class="profil-accent-card">
+          <div class="profil-accent-num" id="profil-stat-ekskul">12+</div>
+          <div class="profil-accent-label">Ekstrakurikuler</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="section-eyebrow">Tentang Kami</p>
+        <h2 class="section-title">Profil <em>Sekolah</em></h2>
+        <div class="profil-info">
+          <p id="profil-desc1">SMP Negeri 3 Aesesa merupakan sekolah menengah pertama negeri yang berkomitmen menghadirkan pendidikan berkualitas bagi seluruh peserta didik di Kecamatan Aesesa, Kabupaten Nagekeo, Nusa Tenggara Timur.</p>
+          <p id="profil-desc2">Dengan tenaga pengajar berpengalaman dan fasilitas yang terus berkembang, kami berkomitmen mencetak lulusan yang tidak hanya cerdas secara akademis, tetapi juga berkarakter kuat dan siap menghadapi tantangan masa depan.</p>
+        </div>
+        <div class="profil-details">
+          <div class="profil-detail-item"><div class="profil-detail-label">NPSN</div><div class="profil-detail-value" id="detail-npsn">50304xxx</div></div>
+          <div class="profil-detail-item"><div class="profil-detail-label">Akreditasi</div><div class="profil-detail-value" id="detail-akreditasi">A (Amat Baik)</div></div>
+          <div class="profil-detail-item"><div class="profil-detail-label">Kepala Sekolah</div><div class="profil-detail-value" id="detail-kepsek">[Nama Kepala Sekolah]</div></div>
+          <div class="profil-detail-item"><div class="profil-detail-label">Tahun Berdiri</div><div class="profil-detail-value" id="detail-tahun-berdiri">1999</div></div>
+          <div class="profil-detail-item"><div class="profil-detail-label">Kurikulum</div><div class="profil-detail-value" id="detail-kurikulum">Kurikulum Merdeka</div></div>
+          <div class="profil-detail-item"><div class="profil-detail-label">Status</div><div class="profil-detail-value">Negeri</div></div>
+        </div>
+        <div class="profil-stats">
+          <div><div class="profil-stat-num" id="profil-stat-siswa">450+</div><div class="profil-stat-label">Siswa Aktif</div></div>
+          <div><div class="profil-stat-num" id="profil-stat-rombel">15</div><div class="profil-stat-label">Rombongan Belajar</div></div>
+          <div><div class="profil-stat-num" id="profil-stat-guru">32</div><div class="profil-stat-label">Guru & Staff</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PENGUMUMAN ── -->
+<section id="pengumuman">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Berita & Info</p>
+      <h2 class="section-title">Pengumuman <em>Terbaru</em></h2>
+    </div>
+    <div class="pengumuman-layout">
+      <div class="pengumuman-list" id="pengumuman-list">
+        <!-- skeleton -->
+        <div style="padding:1.8rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+          <div class="skel" style="height:14px;width:30%;margin-bottom:0.8rem;"></div>
+          <div class="skel" style="height:18px;width:75%;margin-bottom:0.5rem;"></div>
+          <div class="skel" style="height:14px;width:90%;"></div>
+        </div>
+        <div style="padding:1.8rem 0; border-bottom:1px solid var(--border); opacity:0.6;">
+          <div class="skel" style="height:14px;width:25%;margin-bottom:0.8rem;"></div>
+          <div class="skel" style="height:18px;width:65%;margin-bottom:0.5rem;"></div>
+          <div class="skel" style="height:14px;width:80%;"></div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <!-- Info Sekolah: dari Google Sheets sheet 'info' -->
+        <div class="sidebar-card reveal">
+          <div class="sidebar-card-title">🏫 Informasi Sekolah</div>
+          <div class="info-row"><span class="info-row-icon">📍</span><div><div class="info-row-label">Alamat</div><div class="info-row-value" id="info-alamat">Kecamatan Aesesa, Kab. Nagekeo, NTT</div></div></div>
+          <div class="info-row"><span class="info-row-icon">📞</span><div><div class="info-row-label">Telepon</div><div class="info-row-value" id="info-telepon">—</div></div></div>
+          <div class="info-row"><span class="info-row-icon">✉️</span><div><div class="info-row-label">Email</div><div class="info-row-value" id="info-email">—</div></div></div>
+          <div class="info-row"><span class="info-row-icon">🕐</span><div><div class="info-row-label">Jam Belajar</div><div class="info-row-value" id="info-jam">Senin–Jumat: 07.00–14.00 WITA</div></div></div>
+        </div>
+        <!-- PPDB -->
+        <div class="sidebar-card reveal">
+          <div class="sidebar-card-title">📋 PPDB &amp; Pendaftaran</div>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-bottom:1rem;" id="info-ppdb">Informasi Penerimaan Peserta Didik Baru akan diumumkan melalui website ini dan papan pengumuman sekolah.</p>
+          <a href="#kontak" class="link-btn">Hubungi Sekretariat <span>→</span></a>
+          <a href="#" class="link-btn" id="link-ppdb">Formulir Pendaftaran <span>→</span></a>
+        </div>
+        <!-- Jadwal Pelajaran -->
+        <div class="sidebar-card reveal">
+          <div class="sidebar-card-title">📅 Kalender Akademik</div>
+          <p id="info-kalender" style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-bottom:1rem;">Tahun Pelajaran 2024/2025. Semester Genap: Januari – Juni 2025.</p>
+          <a href="#" class="link-btn" id="link-kalender">Unduh Kalender <span>→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROGRAM / EKSKUL ── -->
+<section id="program">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Akademik & Non-Akademik</p>
+      <h2 class="section-title">Program &amp; <em>Ekstrakurikuler</em></h2>
+    </div>
+    <div class="program-grid" id="program-grid">
+      <!-- Skeleton -->
+      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
+      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
+      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRESTASI ── -->
+<section id="prestasi">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Kebanggaan Kami</p>
+      <h2 class="section-title">Prestasi <em>Unggulan</em></h2>
+    </div>
+    <div class="prestasi-grid" id="prestasi-grid">
+      <!-- Skeleton -->
+      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALERI ── -->
+<section id="galeri" style="background:var(--bg);">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Momen Sekolah</p>
+      <h2 class="section-title">Galeri <em>Kegiatan</em></h2>
+    </div>
+    <div class="galeri-grid reveal">
+      <div class="galeri-item wide tall" style="background:linear-gradient(135deg,#E6F5F3,#C8E8E4);font-size:5rem;">🏫<div class="galeri-overlay"><span class="galeri-overlay-text">Gedung Sekolah SMPN 3 Aesesa</span></div></div>
+      <div class="galeri-item" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);">🏆<div class="galeri-overlay"><span class="galeri-overlay-text">Upacara Penghargaan Prestasi</span></div></div>
+      <div class="galeri-item" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">⚽<div class="galeri-overlay"><span class="galeri-overlay-text">Pertandingan Olahraga</span></div></div>
+      <div class="galeri-item tall" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">📚<div class="galeri-overlay"><span class="galeri-overlay-text">Kegiatan Belajar Mengajar</span></div></div>
+      <div class="galeri-item" style="background:linear-gradient(135deg,#FDF2F8,#F9A8D4);">🎭<div class="galeri-overlay"><span class="galeri-overlay-text">Pentas Seni Budaya</span></div></div>
+      <div class="galeri-item" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">🔬<div class="galeri-overlay"><span class="galeri-overlay-text">Praktikum Laboratorium</span></div></div>
+      <div class="galeri-item" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">🌱<div class="galeri-overlay"><span class="galeri-overlay-text">Program Adiwiyata</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GURU & STAFF ── -->
+<section id="guru">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Sumber Daya Manusia</p>
+      <h2 class="section-title">Guru &amp; <em>Tenaga Kependidikan</em></h2>
+    </div>
+    <div class="guru-grid" id="guru-grid">
+      <!-- Skeleton -->
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KONTAK ── -->
+<section id="kontak">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Hubungi Kami</p>
+      <h2 class="section-title">Kontak &amp; <em>Lokasi</em></h2>
+    </div>
+    <div class="kontak-grid">
+      <div class="kontak-info reveal">
+        <div class="kontak-item"><div class="kontak-icon">📍</div><div><div class="kontak-label">Alamat Sekolah</div><div class="kontak-value" id="kontak-alamat">Kecamatan Aesesa, Kabupaten Nagekeo, Nusa Tenggara Timur</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">📞</div><div><div class="kontak-label">Nomor Telepon</div><div class="kontak-value" id="kontak-telepon">—</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">✉️</div><div><div class="kontak-label">Email Resmi</div><div class="kontak-value" id="kontak-email">—</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">🌐</div><div><div class="kontak-label">Website</div><div class="kontak-value" id="kontak-website">smpn3aesesa.sch.id</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">👤</div><div><div class="kontak-label">Kepala Sekolah</div><div class="kontak-value" id="kontak-kepsek">[Nama Kepala Sekolah]</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">🕐</div><div><div class="kontak-label">Jam Operasional</div><div class="kontak-value" id="kontak-jam">Senin – Jumat: 07.00 – 15.00 WITA</div></div></div>
+      </div>
+      <div class="form-card reveal">
+        <h3 class="form-title">Kirim Pesan</h3>
+        <p class="form-subtitle">Kami akan merespons dalam 1×24 jam pada hari kerja.</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nama Lengkap</label><input type="text" id="form-nama" class="form-input" placeholder="Nama Anda..."></div>
+          <div class="form-group"><label class="form-label">Email / No. HP</label><input type="text" id="form-kontak" class="form-input" placeholder="email atau no. HP..."></div>
+        </div>
+        <div class="form-group"><label class="form-label">Keperluan</label>
+          <select id="form-keperluan" class="form-select">
+            <option value="">-- Pilih Keperluan --</option>
+            <option>Informasi PPDB</option>
+            <option>Konsultasi Akademik</option>
+            <option>Surat Keterangan</option>
+            <option>Kerjasama / Sponsorship</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Pesan</label><textarea id="form-pesan" class="form-textarea" rows="4" placeholder="Tulis pesan Anda..."></textarea></div>
+        <button class="btn-primary" id="form-submit" style="width:100%;margin-top:0.5rem;">Kirim Pesan →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name" id="footer-nama">SMP Negeri 3 Aesesa</div>
+      <div class="footer-brand-sub" id="footer-sub">Kab. Nagekeo, Nusa Tenggara Timur</div>
+      <p class="footer-desc" id="footer-desc">Mencerdaskan kehidupan bangsa melalui pendidikan yang berkualitas, berkarakter, dan berdaya saing.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigasi</div>
+      <div class="footer-links"><a href="#profil">Profil Sekolah</a><a href="#pengumuman">Pengumuman</a><a href="#program">Program</a><a href="#prestasi">Prestasi</a><a href="#galeri">Galeri</a></div>
+    </div>
+    <div>
+      <div class="footer-col-title">Layanan</div>
+      <div class="footer-links"><a href="#">PPDB Online</a><a href="#">E-Raport</a><a href="#">Perpustakaan</a><a href="#">Beasiswa</a><a href="#">Alumni</a></div>
+    </div>
+    <div>
+      <div class="footer-col-title">Tautan</div>
+      <div class="footer-links"><a href="https://kemdikbud.go.id" target="_blank">Kemendikbud</a><a href="https://dapodik.kemdikbud.go.id" target="_blank">Dapodik</a><a href="#">Dinas Pendidikan NTT</a><a href="#">Kabupaten Nagekeo</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy" id="footer-copy">© 2025 SMP Negeri 3 Aesesa. Hak cipta dilindungi.</p>
+    <div class="footer-social">
+      <a href="#" id="social-fb" title="Facebook">📘</a>
+      <a href="#" id="social-ig" title="Instagram">📸</a>
+      <a href="#" id="social-yt" title="YouTube">▶️</a>
+      <a href="#" id="social-wa" title="WhatsApp">💬</a>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+// ═══════════════════════════════════════════════
+//  GOOGLE SHEETS INTEGRATION – SMPN 3 AESESA
+// ═══════════════════════════════════════════════
+// ── GANTI URL INI dengan URL Apps Script kamu ──────────────────
+//  Cara: Google Sheets → Extensions → Apps Script → Deploy → Web App
+//  Salin URL deployment dan paste menggantikan teks di bawah ini.
+const GS_URL = 'https://script.google.com/macros/s/AKfycbxy0M1NCj_NbOkYv30XmLLzN_PeUcAfKPP9r3uP-8VQJrjVzoPAZNNXLG80j31N0QGO/exec';
+
+// ── TOAST ────────────────────────────────────────
+function showToast(msg, icon='📡', duration=3000) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-icon').textContent = icon;
+  t.classList.add('show');
+  if (duration > 0) setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── STATUS DOT ────────────────────────────────────
+function setStatus(state) {
+  const dot = document.getElementById('gs-dot');
+  dot.className = 'nav-status ' + state;
+  dot.title = state === 'connected' ? 'Terhubung ke Google Sheets ✓'
+            : state === 'loading'   ? 'Memuat data...'
+            : 'Belum terhubung ke Google Sheets';
+}
+
+// ── CONFIG PANEL ──────────────────────────────────
+
+
+
+
+// ── FETCH SHEET ───────────────────────────────────
+async function fetchSheet(name) {
+  if (!GS_URL) return null;
+  const res = await fetch(`${GS_URL}?sheet=${name}`);
+  if (!res.ok) throw new Error(`Gagal fetch '${name}'`);
+  return (await res.json()).data || [];
+}
+
+// ── LOAD INFO ─────────────────────────────────────
+async function loadInfo() {
+  const data = await fetchSheet('info');
+  if (!data || !data.length) return;
+  const info = {};
+  data.forEach(r => { if (r.key) info[r.key] = r.value; });
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null && val !== '') el.innerHTML = val; };
+  set('nav-nama-sekolah',    info.nama_sekolah);
+  set('hero-title',          info.hero_title || (info.nama_sekolah ? `<em>${info.nama_sekolah}</em>` : null));
+  set('hero-desc',           info.hero_desc);
+  set('hero-akreditasi',     info.akreditasi ? `Akreditasi ${info.akreditasi}` : null);
+  set('hero-card-nama',      info.nama_sekolah);
+  set('hero-card-alamat',    info.kota);
+  set('hero-mini-prestasi',  info.jml_prestasi ? `${info.jml_prestasi} Prestasi` : null);
+  set('stat-siswa',          info.jml_siswa);
+  set('stat-guru',           info.jml_guru);
+  set('stat-tahun',          info.tahun_aktif);
+  set('profil-desc1',        info.profil_1);
+  set('profil-desc2',        info.profil_2);
+  set('profil-stat-siswa',   info.jml_siswa);
+  set('profil-stat-rombel',  info.jml_rombel);
+  set('profil-stat-guru',    info.jml_guru);
+  set('profil-stat-ekskul',  info.jml_ekskul ? `${info.jml_ekskul}+` : null);
+  set('detail-npsn',         info.npsn);
+  set('detail-akreditasi',   info.akreditasi_detail || info.akreditasi);
+  set('detail-kepsek',       info.kepala_sekolah);
+  set('detail-tahun-berdiri',info.tahun_berdiri);
+  set('detail-kurikulum',    info.kurikulum);
+  set('info-alamat',         info.alamat);
+  set('info-telepon',        info.telepon);
+  set('info-email',          info.email);
+  set('info-jam',            info.jam_sekolah);
+  set('info-ppdb',           info.info_ppdb);
+  set('info-kalender',       info.info_kalender);
+  set('kontak-alamat',       info.alamat);
+  set('kontak-telepon',      info.telepon);
+  set('kontak-email',        info.email);
+  set('kontak-website',      info.website);
+  set('kontak-kepsek',       info.kepala_sekolah);
+  set('kontak-jam',          info.jam_sekolah);
+  set('footer-nama',         info.nama_sekolah);
+  set('footer-sub',          info.kota);
+  set('footer-desc',         info.footer_desc);
+  set('footer-copy',         info.footer_copy);
+  if (info.link_ppdb)     document.getElementById('link-ppdb').href     = info.link_ppdb;
+  if (info.link_kalender) document.getElementById('link-kalender').href = info.link_kalender;
+  if (info.fb_url)        document.getElementById('social-fb').href     = info.fb_url;
+  if (info.ig_url)        document.getElementById('social-ig').href     = info.ig_url;
+  if (info.yt_url)        document.getElementById('social-yt').href     = info.yt_url;
+  if (info.wa_url)        document.getElementById('social-wa').href     = info.wa_url;
+}
+
+// ── LOAD PENGUMUMAN ───────────────────────────────
+async function loadPengumuman() {
+  const data = await fetchSheet('pengumuman');
+  if (!data || !data.length) return;
+  const list = document.getElementById('pengumuman-list');
+  list.innerHTML = data.map(r => `
+    <div class="pengumuman-item">
+      <div class="pengumuman-date-box">
+        <div class="pengumuman-date-day">${r.tanggal || '—'}</div>
+        <div class="pengumuman-date-mon">${r.bulan || ''}</div>
+      </div>
+      <div class="pengumuman-content">
+        <span class="pengumuman-category">${r.kategori || 'Umum'}</span>
+        <div class="pengumuman-title">${r.judul || ''}</div>
+        <div class="pengumuman-body">${r.isi || ''}</div>
+      </div>
+    </div>`).join('');
+  buildTicker(data);
+}
+
+// ── TICKER ────────────────────────────────────────
+function buildTicker(pengumuman) {
+  const items = pengumuman.map(r => `${r.judul || ''}`).filter(Boolean);
+  if (!items.length) return;
+  const doubled = [...items, ...items];
+  document.getElementById('ticker-inner').innerHTML = doubled.map(t =>
+    `<span class="ticker-item"><span class="ticker-sep">◆</span>${t}</span>`
+  ).join('');
+}
+
+// ── LOAD PROGRAM ──────────────────────────────────
+const PROGRAM_BG_DEFAULT = [
+  'linear-gradient(135deg,#E6F5F3,#B2DDD8)',
+  'linear-gradient(135deg,#FEF3C7,#FDE68A)',
+  'linear-gradient(135deg,#E0F2FE,#BAE6FD)',
+  'linear-gradient(135deg,#F0FDF4,#BBF7D0)',
+  'linear-gradient(135deg,#FDF4FF,#E9D5FF)',
+  'linear-gradient(135deg,#FFF7ED,#FED7AA)',
+];
+async function loadProgram() {
+  const data = await fetchSheet('program');
+  if (!data || !data.length) return;
+  document.getElementById('program-grid').innerHTML = data.map((r, i) => `
+    <div class="program-card reveal visible">
+      <div class="program-thumb" style="background:${r.warna || PROGRAM_BG_DEFAULT[i % PROGRAM_BG_DEFAULT.length]};">
+        <span style="position:relative;z-index:1;">${r.ikon || '📚'}</span>
+      </div>
+      <div class="program-body">
+        <div class="program-tag">${r.kategori || ''}</div>
+        <div class="program-title">${r.judul || ''}</div>
+        <div class="program-desc">${r.deskripsi || ''}</div>
+        <div class="program-meta">📅 ${r.jadwal || ''}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── LOAD PRESTASI ─────────────────────────────────
+async function loadPrestasi() {
+  const data = await fetchSheet('prestasi');
+  if (!data || !data.length) return;
+  document.getElementById('prestasi-grid').innerHTML = data.map(r => `
+    <div class="prestasi-card reveal visible">
+      <span class="prestasi-medal">${r.medali || '🏅'}</span>
+      <div class="prestasi-event">${r.event || ''}</div>
+      <div class="prestasi-name">${r.nama || ''}</div>
+      <div class="prestasi-info">${r.info || ''} ${r.tahun ? '· ' + r.tahun : ''}</div>
+    </div>`).join('');
+}
+
+// ── LOAD GURU ─────────────────────────────────────
+async function loadGuru() {
+  const data = await fetchSheet('guru');
+  if (!data || !data.length) return;
+  document.getElementById('guru-grid').innerHTML = data.map(r => `
+    <div class="guru-card reveal visible">
+      <div class="guru-avatar">${r.emoji || '👤'}</div>
+      <div class="guru-name">${r.nama || ''}</div>
+      <div class="guru-jabatan">${r.jabatan || ''}</div>
+      <div class="guru-mapel">${r.mapel || ''}</div>
+    </div>`).join('');
+}
+
+// ── FORM SUBMIT ───────────────────────────────────
+document.getElementById('form-submit').addEventListener('click', async () => {
+  const nama      = document.getElementById('form-nama').value.trim();
+  const kontak    = document.getElementById('form-kontak').value.trim();
+  const keperluan = document.getElementById('form-keperluan').value;
+  const pesan     = document.getElementById('form-pesan').value.trim();
+  if (!nama || !pesan) { showToast('Nama dan pesan wajib diisi!', '⚠️', 3000); return; }
+  if (GS_URL) {
+    showToast('Mengirim pesan...', '⏳', 0);
+    try {
+      await fetch(`${GS_URL}?action=pesan&nama=${encodeURIComponent(nama)}&kontak=${encodeURIComponent(kontak)}&keperluan=${encodeURIComponent(keperluan)}&pesan=${encodeURIComponent(pesan)}`);
+    } catch(e) {}
+  }
+  showToast('Pesan terkirim! Terima kasih 🙏', '✅', 5000);
+  document.getElementById('form-nama').value = '';
+  document.getElementById('form-kontak').value = '';
+  document.getElementById('form-keperluan').value = '';
+  document.getElementById('form-pesan').value = '';
+});
+
+// ── LOAD ALL DATA ─────────────────────────────────
+async function loadAllData() {
+  if (!GS_URL || GS_URL.includes('GANTI_URL_INI')) {
+    setStatus('disconnected');
+    showToast('URL Apps Script belum diisi di source code', 'ℹ️', 6000);
+    loadStaticData(); return;
+  }
+  setStatus('loading'); showToast('Memuat data dari Google Sheets...', '⏳', 0);
+  try {
+    await Promise.all([loadInfo(), loadPengumuman(), loadProgram(), loadPrestasi(), loadGuru()]);
+    setStatus('connected'); showToast('Data berhasil dimuat ✓', '✅', 3000);
+    setTimeout(loadAllData, 5 * 60 * 1000);
+  } catch(e) {
+    setStatus('disconnected'); showToast('Gagal memuat data. Cek URL Apps Script.', '❌', 5000);
+    console.error('[GS]', e); loadStaticData();
+  }
+}
+
+// ── STATIC FALLBACK DATA ──────────────────────────
+function loadStaticData() {
+  // Pengumuman statis
+  const stPengumuman = [
+    { tanggal:'16', bulan:'Mar', kategori:'Akademik', judul:'Jadwal Ujian Tengah Semester Genap 2024/2025', isi:'UTS Semester Genap akan dilaksanakan pada 17–22 Maret 2025. Siswa diharapkan hadir tepat waktu dengan membawa kartu ujian.' },
+    { tanggal:'12', bulan:'Mar', kategori:'PPDB', judul:'Pembukaan Pendaftaran PPDB Tahun Ajaran 2025/2026', isi:'Pendaftaran PPDB akan dibuka mulai 1 April 2025. Pendaftaran dilakukan secara online melalui website resmi sekolah.' },
+    { tanggal:'08', bulan:'Mar', kategori:'Prestasi', judul:'Selamat! Tim Olimpiade Sains Raih Juara 1 Tingkat Kabupaten', isi:'Tim olimpiade sains SMP Negeri 3 Aesesa berhasil meraih juara pertama pada OSN tingkat Kabupaten Nagekeo 2025.' },
+    { tanggal:'05', bulan:'Mar', kategori:'Kegiatan', judul:'Peringatan Hari Pendidikan Nasional – Lomba Kreativitas Siswa', isi:'Rangkaian kegiatan Hardiknas akan diselenggarakan pada 2 Mei 2025 dengan berbagai lomba kreativitas siswa.' },
+    { tanggal:'01', bulan:'Mar', kategori:'Umum', judul:'Libur Akhir Semester dan Jadwal Pembagian Raport', isi:'Pembagian raport semester ganjil dilaksanakan pada 22 Desember 2024. Siswa diwajibkan hadir bersama orang tua/wali.' },
+  ];
+  document.getElementById('pengumuman-list').innerHTML = stPengumuman.map(r => `
+    <div class="pengumuman-item">
+      <div class="pengumuman-date-box"><div class="pengumuman-date-day">${r.tanggal}</div><div class="pengumuman-date-mon">${r.bulan}</div></div>
+      <div class="pengumuman-content">
+        <span class="pengumuman-category">${r.kategori}</span>
+        <div class="pengumuman-title">${r.judul}</div>
+        <div class="pengumuman-body">${r.isi}</div>
+      </div>
+    </div>`).join('');
+  buildTicker(stPengumuman);
+
+  // Program statis
+  const stProgram = [
+    { ikon:'📐', kategori:'Akademik', judul:'Olimpiade Sains (OSN)', deskripsi:'Persiapan dan pembinaan intensif siswa berprestasi untuk menghadapi Olimpiade Sains Nasional tingkat kabupaten, provinsi, dan nasional.', jadwal:'Senin & Rabu, 14.00 WITA', warna:'linear-gradient(135deg,#E6F5F3,#B2DDD8)' },
+    { ikon:'⚽', kategori:'Olahraga', judul:'Sepak Bola & Futsal', deskripsi:'Pembinaan atlet muda dalam cabang olahraga sepak bola dan futsal untuk meraih prestasi di tingkat daerah dan nasional.', jadwal:'Selasa & Kamis, 15.30 WITA', warna:'linear-gradient(135deg,#FEF3C7,#FDE68A)' },
+    { ikon:'🎭', kategori:'Seni Budaya', judul:'Seni Tari & Drama', deskripsi:'Pelestarian budaya lokal NTT melalui seni tari tradisional dan pertunjukan drama yang mengangkat kearifan lokal.', jadwal:'Jumat, 13.30 WITA', warna:'linear-gradient(135deg,#FDF2F8,#F9A8D4)' },
+    { ikon:'🔬', kategori:'Sains', judul:'Karya Ilmiah Remaja (KIR)', deskripsi:'Melatih siswa berpikir ilmiah, melakukan penelitian, dan mempresentasikan karya ilmiah di berbagai kompetisi.', jadwal:'Rabu, 14.00 WITA', warna:'linear-gradient(135deg,#E0F2FE,#BAE6FD)' },
+    { ikon:'🎵', kategori:'Seni Musik', judul:'Paduan Suara & Band', deskripsi:'Pengembangan bakat musikal siswa melalui paduan suara, band sekolah, dan vokal grup untuk berbagai penampilan.', jadwal:'Sabtu, 08.00 WITA', warna:'linear-gradient(135deg,#EFF6FF,#BFDBFE)' },
+    { ikon:'🏕️', kategori:'Kepramukaan', judul:'Pramuka Penggalang', deskripsi:'Pembinaan karakter, kemandirian, dan jiwa kepemimpinan siswa melalui kegiatan pramuka yang terstruktur dan menyenangkan.', jadwal:'Sabtu, 07.00 WITA', warna:'linear-gradient(135deg,#F0FDF4,#BBF7D0)' },
+  ];
+  document.getElementById('program-grid').innerHTML = stProgram.map(r => `
+    <div class="program-card reveal visible">
+      <div class="program-thumb" style="background:${r.warna};"><span style="position:relative;z-index:1;">${r.ikon}</span></div>
+      <div class="program-body">
+        <div class="program-tag">${r.kategori}</div>
+        <div class="program-title">${r.judul}</div>
+        <div class="program-desc">${r.deskripsi}</div>
+        <div class="program-meta">📅 ${r.jadwal}</div>
+      </div>
+    </div>`).join('');
+
+  // Prestasi statis
+  const stPrestasi = [
+    { medali:'🥇', event:'OSN Tingkat Kabupaten', nama:'Juara 1 Matematika', info:'Kab. Nagekeo', tahun:'2024' },
+    { medali:'🥈', event:'O2SN Tingkat Kabupaten', nama:'Juara 2 Atletik Putri', info:'Kab. Nagekeo', tahun:'2024' },
+    { medali:'🥇', event:'FLS2N Seni Tari', nama:'Juara 1 Tari Tradisional', info:'Tingkat Provinsi NTT', tahun:'2023' },
+    { medali:'🥉', event:'OSN IPA', nama:'Juara 3 IPA Terpadu', info:'Tingkat Kabupaten', tahun:'2024' },
+    { medali:'🏅', event:'Pramuka Tingkat Kwarcab', nama:'Regu Garuda Terbaik', info:'Kab. Nagekeo', tahun:'2023' },
+    { medali:'🥇', event:'Lomba Debat Bahasa Ind.', nama:'Juara 1 Debat Pelajar', info:'Tingkat Kabupaten', tahun:'2024' },
+    { medali:'🥈', event:'Kompetisi Futsal Pelajar', nama:'Runner-up Futsal SMP', info:'Kab. Nagekeo', tahun:'2024' },
+    { medali:'🏅', event:'Karya Ilmiah Remaja', nama:'Inovasi Terbaik KIR', info:'Tingkat SMP se-NTT', tahun:'2023' },
+  ];
+  document.getElementById('prestasi-grid').innerHTML = stPrestasi.map(r => `
+    <div class="prestasi-card reveal visible">
+      <span class="prestasi-medal">${r.medali}</span>
+      <div class="prestasi-event">${r.event}</div>
+      <div class="prestasi-name">${r.nama}</div>
+      <div class="prestasi-info">${r.info} · ${r.tahun}</div>
+    </div>`).join('');
+
+  // Guru statis
+  const stGuru = [
+    { emoji:'👨‍💼', nama:'[Nama Kepala Sekolah]', jabatan:'Kepala Sekolah', mapel:'—' },
+    { emoji:'👩‍🏫', nama:'[Guru Matematika]', jabatan:'Guru Tetap (PNS)', mapel:'Matematika' },
+    { emoji:'👨‍🏫', nama:'[Guru Bahasa Indonesia]', jabatan:'Guru Tetap (PNS)', mapel:'Bahasa Indonesia' },
+    { emoji:'👩‍🔬', nama:'[Guru IPA]', jabatan:'Guru Tetap (PNS)', mapel:'IPA Terpadu' },
+    { emoji:'👨‍🏫', nama:'[Guru IPS]', jabatan:'Guru Tetap', mapel:'Ilmu Pengetahuan Sosial' },
+    { emoji:'👩‍🏫', nama:'[Guru Bahasa Inggris]', jabatan:'Guru Tetap', mapel:'Bahasa Inggris' },
+    { emoji:'👨‍🎨', nama:'[Guru Seni Budaya]', jabatan:'Guru Tetap', mapel:'Seni Budaya & Prakarya' },
+    { emoji:'👩‍💻', nama:'[Guru TIK]', jabatan:'Guru Honorer', mapel:'Teknologi Informasi' },
+  ];
+  document.getElementById('guru-grid').innerHTML = stGuru.map(r => `
+    <div class="guru-card reveal visible">
+      <div class="guru-avatar">${r.emoji}</div>
+      <div class="guru-name">${r.nama}</div>
+      <div class="guru-jabatan">${r.jabatan}</div>
+      <div class="guru-mapel">${r.mapel}</div>
+    </div>`).join('');
+}
+
+// ── NAV SCROLL ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── SCROLL REVEAL ─────────────────────────────────
+const revObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+      const idx = siblings.indexOf(entry.target);
+      setTimeout(() => entry.target.classList.add('visible'), idx * 70);
+      revObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revObserver.observe(el));
+
+// ── SMOOTH SCROLL ─────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+
+
+
+// ── INIT ──────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', loadAllData);
+</script>
+</body>
+</html>
