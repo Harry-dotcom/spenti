@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMP Negeri 3 Aesesa – Sekolah Menengah Pertama</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,7 +15,6 @@
   --teal-mid:    #B2DDD8;
   --navy:        #0D2B3E;
   --navy-mid:    #1A4A62;
-  --red:         #C0392B;
   --amber:       #D97706;
   --bg:          #F7F9FB;
   --surface:     #FFFFFF;
@@ -32,13 +31,7 @@
 }
 
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-}
-
+body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
@@ -60,555 +53,417 @@ body {
 /* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 68px;
+  height: 64px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 3rem;
-  background: rgba(247,249,251,0.96);
+  padding: 0 2rem;
+  background: rgba(247,249,251,0.97);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(10px);
   transition: all 0.3s;
 }
-nav.scrolled {
-  height: 58px;
-  background: rgba(255,255,255,0.98);
-  box-shadow: var(--shadow-md);
-}
-.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+nav.scrolled { height: 56px; background: rgba(255,255,255,0.99); box-shadow: var(--shadow-md); }
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
 .nav-logo-box {
-  width: 38px; height: 38px;
-  background: var(--teal);
-  border-radius: 8px;
+  width: 36px; height: 36px; background: var(--teal); border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(10,124,110,0.3);
+  flex-shrink: 0; box-shadow: 0 2px 8px rgba(10,124,110,0.3); overflow: hidden;
 }
-.nav-brand-text { line-height: 1.2; }
-.nav-brand-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.95rem; font-weight: 700;
-  color: var(--navy);
-  letter-spacing: 0.01em;
-}
-.nav-brand-sub {
-  font-size: 0.67rem; font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+.nav-logo-box .nav-logo-emoji { font-size: 1.1rem; }
+.nav-brand-name { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; color: var(--navy); }
+.nav-brand-sub { font-size: 0.62rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.nav-links { display: flex; align-items: center; gap: 1.6rem; list-style: none; }
 .nav-links a {
-  font-size: 0.8rem; font-weight: 500;
-  color: var(--text-muted); text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: color 0.2s;
-  position: relative;
+  font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+  text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; position: relative;
 }
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
-  height: 2px; background: var(--teal);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.25s;
-  border-radius: 1px;
-}
+.nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:2px; background:var(--teal); transform:scaleX(0); transform-origin:left; transition:transform 0.25s; border-radius:1px; }
 .nav-links a:hover { color: var(--teal); }
 .nav-links a:hover::after { transform: scaleX(1); }
-.nav-cta {
-  background: var(--teal) !important; color: white !important;
-  padding: 7px 18px; border-radius: 6px;
-  font-weight: 600 !important;
-  transition: background 0.2s, transform 0.2s !important;
-}
-.nav-cta:hover { background: var(--teal-light) !important; transform: translateY(-1px); }
+.nav-cta { background: var(--teal) !important; color: white !important; padding: 7px 16px; border-radius: 6px; font-weight: 600 !important; }
+.nav-cta:hover { background: var(--teal-light) !important; }
 .nav-cta::after { display: none !important; }
-.nav-status {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--text-light); transition: background 0.3s;
-  cursor: help;
-}
+.nav-status { width: 8px; height: 8px; border-radius: 50%; background: var(--text-light); cursor: help; transition: background 0.3s; flex-shrink: 0; }
 .nav-status.connected { background: #10B981; box-shadow: 0 0 6px #10B981; }
 .nav-status.loading { background: var(--amber); animation: blink 1s infinite; }
+.nav-status.disconnected { background: #EF4444; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* Hamburger */
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger span { width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: all 0.3s; }
+.nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.nav-mobile {
+  display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+  background: white; border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-lg); padding: 1rem 1.5rem 1.5rem;
+  flex-direction: column; gap: 0;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a { font-size: 0.95rem; font-weight: 500; color: var(--text-body); text-decoration: none; padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+.nav-mobile a:last-child { border-bottom: none; }
+.nav-mobile a.nav-cta-mobile { color: var(--teal); font-weight: 700; }
 
 /* ── HERO ── */
 .hero {
-  min-height: 100vh;
-  padding-top: 68px;
-  position: relative;
-  display: flex; align-items: center;
+  min-height: 100vh; padding-top: 64px;
+  position: relative; display: flex; align-items: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #F0F6FA 0%, #E8F4F1 40%, #F5F9FC 100%);
+  background: linear-gradient(135deg, #EFF6F4 0%, #E8F4F1 50%, #F0F6FA 100%);
 }
-.hero-geo {
-  position: absolute; inset: 0; pointer-events: none;
-  overflow: hidden;
-}
-.hero-geo-circle-1 {
-  position: absolute; top: -120px; right: -80px;
-  width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(10,124,110,0.08) 0%, transparent 70%);
-}
-.hero-geo-circle-2 {
-  position: absolute; bottom: -100px; left: -60px;
-  width: 380px; height: 380px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(13,43,62,0.05) 0%, transparent 70%);
-}
-.hero-geo-lines {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(10,124,110,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10,124,110,0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-.hero-geo-accent {
-  position: absolute; top: 0; right: 0;
-  width: 40%; height: 100%;
-  background: linear-gradient(135deg, transparent 0%, rgba(10,124,110,0.04) 100%);
-  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
+.hero-geo { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.hero-geo-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(10,124,110,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(10,124,110,0.04) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-geo-blob1 { position: absolute; top: -100px; right: -100px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(10,124,110,0.07) 0%, transparent 70%); }
+.hero-geo-blob2 { position: absolute; bottom: -80px; left: -60px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(13,43,62,0.04) 0%, transparent 70%); }
 .hero-inner {
   position: relative; z-index: 2;
-  max-width: 1200px; margin: 0 auto;
-  padding: 4rem 3rem;
-  display: grid; grid-template-columns: 1.1fr 1fr;
-  gap: 4rem; align-items: center;
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid; grid-template-columns: 1fr 420px;
+  gap: 3rem; align-items: center;
 }
+
+/* Hero Left */
 .hero-badge {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--teal-pale); color: var(--teal);
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
   text-transform: uppercase; padding: 5px 12px;
   border-radius: 20px; border: 1px solid var(--teal-mid);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem; white-space: nowrap;
   opacity: 0; animation: fadeUp 0.8s 0.2s ease both;
 }
-.hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
 .hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
   font-weight: 900; line-height: 1.1;
   color: var(--navy); margin-bottom: 1rem;
   opacity: 0; animation: fadeUp 0.8s 0.35s ease both;
 }
 .hero-title em { font-style: italic; color: var(--teal); }
 .hero-desc {
-  font-size: 1.05rem; line-height: 1.8; color: var(--text-body);
-  max-width: 480px; margin-bottom: 2.2rem;
+  font-size: 1rem; line-height: 1.8; color: var(--text-body);
+  max-width: 460px; margin-bottom: 2rem;
   opacity: 0; animation: fadeUp 0.8s 0.5s ease both;
 }
 .hero-actions {
-  display: flex; gap: 1rem; flex-wrap: wrap;
+  display: flex; gap: 0.8rem; flex-wrap: wrap;
   opacity: 0; animation: fadeUp 0.8s 0.65s ease both;
 }
-.btn-primary {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  background: var(--teal); color: white;
-  padding: 12px 28px; border-radius: 8px; border: none;
-  cursor: pointer; text-decoration: none; letter-spacing: 0.02em;
-  transition: all 0.25s;
-  box-shadow: 0 4px 14px rgba(10,124,110,0.3);
-}
-.btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,124,110,0.4); }
-.btn-outline {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  background: white; color: var(--navy);
-  padding: 11px 28px; border-radius: 8px;
-  border: 1.5px solid var(--border-dark);
-  cursor: pointer; text-decoration: none; letter-spacing: 0.02em;
-  transition: all 0.25s;
-}
+.btn-primary { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; background: var(--teal); color: white; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none; transition: all 0.25s; box-shadow: 0 4px 14px rgba(10,124,110,0.3); }
+.btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); }
+.btn-outline { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; background: white; color: var(--navy); padding: 11px 24px; border-radius: 8px; border: 1.5px solid var(--border-dark); cursor: pointer; text-decoration: none; transition: all 0.25s; }
 .btn-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
 .hero-stats {
-  display: flex; gap: 2rem; margin-top: 2.5rem;
-  padding-top: 2rem; border-top: 1px solid var(--border);
+  display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
   opacity: 0; animation: fadeUp 0.8s 0.8s ease both;
 }
-.hero-stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1;
-}
-.hero-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+.hero-stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--teal); line-height: 1; }
+.hero-stat-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
 
-/* Hero visual */
-.hero-visual {
-  position: relative;
-  opacity: 0; animation: fadeRight 0.9s 0.4s ease both;
+/* Hero Right — card bersih tanpa floating */
+.hero-visual { opacity: 0; animation: fadeRight 0.9s 0.4s ease both; }
+@keyframes fadeRight { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
+.hero-card {
+  background: white; border-radius: 20px;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  overflow: hidden; position: relative;
 }
-@keyframes fadeRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
-.hero-card-main {
-  background: white; border-radius: 16px;
-  padding: 2rem; box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
-  position: relative; overflow: hidden;
-}
-.hero-card-main::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, var(--teal), var(--teal-light));
-}
-.school-emblem {
-  width: 100%; aspect-ratio: 1;
-  max-width: 220px; margin: 0 auto 1.5rem;
+.hero-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--teal),var(--teal-light)); }
+/* Foto sekolah di hero card */
+.school-photo {
+  width: 100%; height: 200px; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--teal-pale), #E0F0EE);
-  border-radius: 50%; font-size: 5rem;
-  border: 3px solid var(--teal-mid);
+  background: linear-gradient(135deg, var(--teal-pale), #D4EDE9);
+  position: relative;
 }
-.hero-card-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; font-weight: 700; color: var(--navy);
-  text-align: center; margin-bottom: 0.3rem;
-}
-.hero-card-sub { font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem; }
-.hero-card-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
-.pill {
-  font-size: 0.7rem; font-weight: 600;
-  padding: 4px 10px; border-radius: 12px; letter-spacing: 0.04em;
-}
+.school-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.school-photo img.loaded { display: block; }
+.school-photo-fallback { font-size: 5rem; position: absolute; }
+.hero-card-body { padding: 1.5rem; }
+.hero-card-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+.hero-card-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
+.hero-card-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.pill { font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 12px; letter-spacing: 0.04em; }
 .pill-teal { background: var(--teal-pale); color: var(--teal); border: 1px solid var(--teal-mid); }
 .pill-navy { background: #E8EEF4; color: var(--navy-mid); border: 1px solid #C4D0DC; }
 .pill-amber { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
-/* floating mini-cards */
-.hero-mini-card {
-  position: absolute; background: white; border-radius: 10px;
-  padding: 0.7rem 1rem; box-shadow: var(--shadow-md);
-  border: 1px solid var(--border); font-size: 0.75rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.hero-mini-1 { top: -16px; right: -16px; }
-.hero-mini-2 { bottom: 20px; left: -20px; }
-.hero-mini-icon { font-size: 1.2rem; }
-.hero-mini-label { font-weight: 600; color: var(--text); }
-.hero-mini-sub { color: var(--text-muted); font-size: 0.68rem; }
+/* Stat row di bawah card */
+.hero-card-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--border); }
+.hero-card-stat { padding: 0.8rem; text-align: center; border-right: 1px solid var(--border); }
+.hero-card-stat:last-child { border-right: none; }
+.hero-card-stat-num { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--teal); line-height: 1; }
+.hero-card-stat-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+/* Info baris kurikulum */
+.hero-card-info { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 0; border-top: 1px solid var(--surface-2); font-size: 0.78rem; color: var(--text-body); }
+.hero-card-info-icon { font-size: 1rem; }
 
-@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
 /* ── TICKER ── */
-.news-ticker {
-  background: var(--navy);
-  padding: 10px 0; overflow: hidden; position: relative;
-}
-.news-ticker::before,.news-ticker::after {
-  content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2;
-}
-.news-ticker::before { left:0; background: linear-gradient(to right, var(--navy), transparent); }
-.news-ticker::after  { right:0; background: linear-gradient(to left, var(--navy), transparent); }
-.ticker-label {
-  position: absolute; left: 0; top: 0; bottom: 0; z-index: 3;
-  background: var(--teal); padding: 0 16px;
-  display: flex; align-items: center;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: white; white-space: nowrap;
-}
+.news-ticker { background: var(--navy); padding: 10px 0; overflow: hidden; position: relative; }
+.news-ticker::before,.news-ticker::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
+.news-ticker::before { left:0; background:linear-gradient(to right,var(--navy),transparent); }
+.news-ticker::after  { right:0; background:linear-gradient(to left,var(--navy),transparent); }
+.ticker-label { position:absolute; left:0; top:0; bottom:0; z-index:3; background:var(--teal); padding:0 16px; display:flex; align-items:center; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:white; white-space:nowrap; }
 .ticker-wrap { padding-left: 100px; overflow: hidden; }
-.ticker-inner {
-  display: flex; align-items: center; white-space: nowrap;
-  animation: ticker 35s linear infinite;
-}
+.ticker-inner { display:flex; align-items:center; white-space:nowrap; animation:ticker 35s linear infinite; }
 @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.ticker-item {
-  font-size: 0.8rem; color: rgba(255,255,255,0.85);
-  padding: 0 2.5rem;
-  display: inline-flex; align-items: center; gap: 0.6rem;
-}
-.ticker-sep { color: var(--teal-light); opacity: 0.6; }
+.ticker-item { font-size:0.8rem; color:rgba(255,255,255,0.85); padding:0 2.5rem; display:inline-flex; align-items:center; gap:0.6rem; }
+.ticker-sep { color:var(--teal-light); opacity:0.6; }
 
 /* ── SECTIONS ── */
-section { padding: 5rem 3rem; }
+section { padding: 4.5rem 2rem; }
 .section-inner { max-width: 1200px; margin: 0 auto; }
-.section-eyebrow {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--teal); margin-bottom: 0.7rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.section-eyebrow::before { content:''; width:20px; height:2px; background:var(--teal); border-radius:1px; }
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.7rem, 3vw, 2.5rem);
-  font-weight: 700; color: var(--navy);
-  line-height: 1.2; margin-bottom: 1rem;
-}
-.section-title em { font-style: italic; color: var(--teal); }
-.section-desc { font-size: 1rem; line-height: 1.75; color: var(--text-body); max-width: 560px; }
-.section-header { margin-bottom: 3rem; }
+.section-eyebrow { font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:0.6rem; display:flex; align-items:center; gap:0.5rem; }
+.section-eyebrow::before { content:''; width:18px; height:2px; background:var(--teal); border-radius:1px; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(1.6rem,3vw,2.4rem); font-weight:700; color:var(--navy); line-height:1.2; margin-bottom:0.8rem; }
+.section-title em { font-style:italic; color:var(--teal); }
+.section-header { margin-bottom: 2.5rem; }
 
-/* ── PROFIL SEKOLAH ── */
+/* ── PROFIL ── */
 #profil { background: white; }
-.profil-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 5rem; align-items: center;
-}
+.profil-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
 .profil-visual { position: relative; }
+
+/* Foto profil sekolah — bisa dari URL */
 .profil-img-frame {
+  border-radius: 16px; overflow: hidden;
+  aspect-ratio: 4/3; position: relative;
+  border: 1px solid var(--teal-mid);
   background: linear-gradient(135deg, var(--teal-pale), #DCF0ED);
-  border-radius: 16px; aspect-ratio: 4/3;
   display: flex; align-items: center; justify-content: center;
-  font-size: 6rem; border: 1px solid var(--teal-mid);
-  position: relative; overflow: hidden;
 }
-.profil-img-frame::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
-  background: linear-gradient(to top, rgba(10,124,110,0.1), transparent);
-}
-.profil-accent-card {
-  position: absolute; bottom: -20px; right: -20px;
-  background: white; border-radius: 12px; padding: 1.2rem 1.5rem;
-  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-  text-align: center;
-}
-.profil-accent-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1; }
-.profil-accent-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
-.profil-info p { font-size: 1rem; line-height: 1.8; color: var(--text-body); margin-bottom: 1.2rem; }
-.profil-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-.profil-detail-item {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 1rem;
-}
-.profil-detail-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
-.profil-detail-value { font-size: 0.92rem; font-weight: 600; color: var(--text); }
-.profil-stats { display: flex; gap: 2rem; margin-top: 2rem; }
-.profil-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); line-height: 1; }
-.profil-stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+.profil-img-frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
+.profil-img-frame img.loaded { display:block; }
+.profil-img-fallback { font-size: 5rem; }
+.profil-img-frame::after { content:''; position:absolute; bottom:0; left:0; right:0; height:35%; background:linear-gradient(to top,rgba(10,124,110,0.12),transparent); pointer-events:none; }
+
+.profil-accent-card { position:absolute; bottom:-18px; right:-18px; background:white; border-radius:12px; padding:1rem 1.3rem; box-shadow:var(--shadow-lg); border:1px solid var(--border); text-align:center; }
+.profil-accent-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--teal); line-height:1; }
+.profil-accent-label { font-size:0.68rem; color:var(--text-muted); margin-top:2px; font-weight:500; }
+.profil-info p { font-size:0.95rem; line-height:1.8; color:var(--text-body); margin-bottom:1rem; }
+.profil-details { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:1.5rem; }
+.profil-detail-item { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:0.9rem; }
+.profil-detail-label { font-size:0.65rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.2rem; }
+.profil-detail-value { font-size:0.88rem; font-weight:600; color:var(--text); }
+.profil-stats { display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:1.5rem; }
+.profil-stat-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--teal); line-height:1; }
+.profil-stat-label { font-size:0.72rem; color:var(--text-muted); font-weight:500; }
 
 /* ── PENGUMUMAN ── */
 #pengumuman { background: var(--bg); }
-.pengumuman-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
-.pengumuman-list { display: flex; flex-direction: column; gap: 0; }
-.pengumuman-item {
-  display: flex; gap: 1.5rem; align-items: flex-start;
-  padding: 1.8rem 0; border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: all 0.2s;
-}
-.pengumuman-item:first-child { border-top: 1px solid var(--border); }
-.pengumuman-item:hover { padding-left: 8px; }
-.pengumuman-item:hover .pengumuman-title { color: var(--teal); }
-.pengumuman-date-box {
-  background: var(--teal); color: white;
-  border-radius: 8px; padding: 0.7rem 0.8rem;
-  text-align: center; flex-shrink: 0; min-width: 52px;
-}
-.pengumuman-date-day { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; line-height: 1; }
-.pengumuman-date-mon { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; opacity: 0.85; }
-.pengumuman-content { flex: 1; }
-.pengumuman-category {
-  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--teal); background: var(--teal-pale);
-  padding: 2px 8px; border-radius: 4px; border: 1px solid var(--teal-mid);
-  display: inline-block; margin-bottom: 0.4rem;
-}
-.pengumuman-title { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; line-height: 1.4; transition: color 0.2s; }
-.pengumuman-body { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+.pengumuman-layout { display:grid; grid-template-columns:2fr 1fr; gap:2.5rem; }
+.pengumuman-list { display:flex; flex-direction:column; }
+.pengumuman-item { display:flex; gap:1.2rem; align-items:flex-start; padding:1.5rem 0; border-bottom:1px solid var(--border); cursor:pointer; transition:all 0.2s; }
+.pengumuman-item:first-child { border-top:1px solid var(--border); }
+.pengumuman-item:hover { padding-left:6px; }
+.pengumuman-item:hover .pengumuman-title { color:var(--teal); }
+.pengumuman-date-box { background:var(--teal); color:white; border-radius:8px; padding:0.6rem 0.7rem; text-align:center; flex-shrink:0; min-width:48px; }
+.pengumuman-date-day { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; line-height:1; }
+.pengumuman-date-mon { font-size:0.58rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; margin-top:1px; opacity:0.85; }
+.pengumuman-content { flex:1; min-width:0; }
+.pengumuman-category { font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); background:var(--teal-pale); padding:2px 7px; border-radius:4px; border:1px solid var(--teal-mid); display:inline-block; margin-bottom:0.3rem; }
+.pengumuman-title { font-size:0.92rem; font-weight:600; color:var(--text); margin-bottom:0.3rem; line-height:1.4; transition:color 0.2s; }
+.pengumuman-body { font-size:0.84rem; color:var(--text-muted); line-height:1.6; }
 
 /* Sidebar */
-.sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-.sidebar-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-sm); }
-.sidebar-card-title {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--navy);
-  margin-bottom: 1.2rem; padding-bottom: 0.7rem;
-  border-bottom: 2px solid var(--teal-pale);
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.info-row { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.6rem 0; border-bottom: 1px solid var(--surface-2); }
-.info-row:last-child { border-bottom: none; }
-.info-row-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-.info-row-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-.info-row-value { font-size: 0.88rem; color: var(--text); line-height: 1.4; }
-.link-btn {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.7rem 1rem; border-radius: 7px; border: 1px solid var(--border);
-  text-decoration: none; color: var(--text-body); font-size: 0.82rem; font-weight: 500;
-  transition: all 0.2s; margin-top: 0.5rem;
-  background: var(--bg);
-}
-.link-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
-.link-btn span { font-size: 0.7rem; }
+.sidebar { display:flex; flex-direction:column; gap:1.2rem; }
+.sidebar-card { background:white; border:1px solid var(--border); border-radius:12px; padding:1.3rem; box-shadow:var(--shadow-sm); }
+.sidebar-card-title { font-size:0.74rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--navy); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:2px solid var(--teal-pale); display:flex; align-items:center; gap:0.4rem; }
+.info-row { display:flex; align-items:flex-start; gap:0.6rem; padding:0.5rem 0; border-bottom:1px solid var(--surface-2); }
+.info-row:last-child { border-bottom:none; }
+.info-row-icon { font-size:0.9rem; flex-shrink:0; margin-top:1px; }
+.info-row-label { font-size:0.66rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); }
+.info-row-value { font-size:0.84rem; color:var(--text); line-height:1.4; }
+.link-btn { display:flex; align-items:center; justify-content:space-between; padding:0.65rem 0.9rem; border-radius:7px; border:1px solid var(--border); text-decoration:none; color:var(--text-body); font-size:0.8rem; font-weight:500; transition:all 0.2s; margin-top:0.5rem; background:var(--bg); }
+.link-btn:hover { border-color:var(--teal); color:var(--teal); background:var(--teal-pale); }
+.link-btn span { font-size:0.68rem; }
 
-/* ── PROGRAM / EKSTRAKURIKULER ── */
+/* ── PROGRAM ── */
 #program { background: white; }
-.program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-.program-card {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden;
-  transition: all 0.3s; cursor: pointer;
-  box-shadow: var(--shadow-sm);
-}
-.program-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--teal-mid); }
-.program-thumb {
-  height: 140px; display: flex; align-items: center; justify-content: center;
-  font-size: 3.5rem; position: relative;
-}
-.program-thumb::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.6) 100%);
-}
-.program-body { padding: 1.2rem; }
-.program-tag { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
-.program-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; line-height: 1.3; }
-.program-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.8rem; }
-.program-meta { font-size: 0.72rem; color: var(--text-light); font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+.program-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+.program-card { background:var(--bg); border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:all 0.3s; cursor:pointer; box-shadow:var(--shadow-sm); }
+.program-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--teal-mid); }
+.program-thumb { height:130px; display:flex; align-items:center; justify-content:center; font-size:3rem; position:relative; overflow:hidden; }
+.program-thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
+.program-thumb img.loaded { display:block; }
+.program-thumb-emoji { position:relative; z-index:1; }
+.program-thumb::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,transparent 50%,rgba(255,255,255,0.5) 100%); }
+.program-body { padding:1rem; }
+.program-tag { font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:0.3rem; }
+.program-title { font-size:0.9rem; font-weight:700; color:var(--text); margin-bottom:0.3rem; line-height:1.3; }
+.program-desc { font-size:0.8rem; color:var(--text-muted); line-height:1.6; margin-bottom:0.6rem; }
+.program-meta { font-size:0.7rem; color:var(--text-light); font-weight:500; display:flex; align-items:center; gap:0.3rem; }
 
 /* ── PRESTASI ── */
 #prestasi { background: var(--navy); }
-#prestasi .section-eyebrow { color: var(--teal-light); }
-#prestasi .section-eyebrow::before { background: var(--teal-light); }
-#prestasi .section-title { color: white; }
-#prestasi .section-title em { color: var(--teal-light); }
-.prestasi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-.prestasi-card {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px; padding: 1.8rem 1.5rem; text-align: center;
-  transition: all 0.3s;
-}
-.prestasi-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(14,158,140,0.5); transform: translateY(-3px); }
-.prestasi-medal { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-.prestasi-event { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.5rem; }
-.prestasi-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.4rem; line-height: 1.3; }
-.prestasi-info { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+#prestasi .section-eyebrow { color:var(--teal-light); }
+#prestasi .section-eyebrow::before { background:var(--teal-light); }
+#prestasi .section-title { color:white; }
+#prestasi .section-title em { color:var(--teal-light); }
+.prestasi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+.prestasi-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.5rem 1.2rem; text-align:center; transition:all 0.3s; }
+.prestasi-card:hover { background:rgba(255,255,255,0.1); border-color:rgba(14,158,140,0.5); transform:translateY(-3px); }
+.prestasi-medal { font-size:2.2rem; margin-bottom:0.8rem; display:block; }
+.prestasi-event { font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal-light); margin-bottom:0.4rem; }
+.prestasi-name { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; color:white; margin-bottom:0.3rem; line-height:1.3; }
+.prestasi-info { font-size:0.75rem; color:rgba(255,255,255,0.5); }
 
 /* ── GALERI ── */
 #galeri { background: var(--bg); }
-.galeri-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 180px);
-  gap: 10px; margin-top: 2.5rem;
-}
-.galeri-item {
-  border-radius: 10px; overflow: hidden; position: relative;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 3rem; border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-.galeri-item:hover { transform: scale(1.02); box-shadow: var(--shadow-lg); z-index: 1; }
-.galeri-item.wide { grid-column: span 2; }
-.galeri-item.tall { grid-row: span 2; }
-.galeri-item.wide.tall { grid-column: span 2; grid-row: span 2; }
-.galeri-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,43,62,0.7) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 0.9rem; }
-.galeri-item:hover .galeri-overlay { opacity: 1; }
-.galeri-overlay-text { font-size: 0.8rem; color: white; font-weight: 500; }
+.galeri-grid { display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,170px); gap:8px; margin-top:2rem; }
+.galeri-item { border-radius:10px; overflow:hidden; position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:2.8rem; border:1px solid var(--border); transition:all 0.3s; }
+.galeri-item img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
+.galeri-item img.loaded { display:block; }
+.galeri-item:hover { transform:scale(1.02); box-shadow:var(--shadow-lg); z-index:1; }
+.galeri-item.wide { grid-column:span 2; }
+.galeri-item.tall { grid-row:span 2; }
+.galeri-item.wide.tall { grid-column:span 2; grid-row:span 2; }
+.galeri-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(13,43,62,0.7) 0%,transparent 50%); opacity:0; transition:opacity 0.3s; display:flex; align-items:flex-end; padding:0.8rem; }
+.galeri-item:hover .galeri-overlay { opacity:1; }
+.galeri-overlay-text { font-size:0.75rem; color:white; font-weight:500; }
 
-/* ── GURU & STAFF ── */
+/* ── GURU ── */
 #guru { background: white; }
-.guru-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-.guru-card {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden; text-align: center;
-  transition: all 0.3s;
-}
-.guru-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--teal-mid); }
-.guru-avatar {
-  width: 80px; height: 80px; border-radius: 50%;
-  background: var(--teal-pale); border: 3px solid var(--teal-mid);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem; margin: 1.5rem auto 1rem;
-}
-.guru-name { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
-.guru-jabatan { font-size: 0.73rem; color: var(--teal); font-weight: 600; margin-bottom: 0.2rem; }
-.guru-mapel { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+.guru-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+.guru-card { background:var(--bg); border:1px solid var(--border); border-radius:12px; overflow:hidden; text-align:center; transition:all 0.3s; }
+.guru-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--teal-mid); }
+.guru-avatar { width:76px; height:76px; border-radius:50%; background:var(--teal-pale); border:3px solid var(--teal-mid); display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:1.3rem auto 0.8rem; overflow:hidden; flex-shrink:0; }
+.guru-avatar img { width:100%; height:100%; object-fit:cover; display:none; border-radius:50%; }
+.guru-avatar img.loaded { display:block; }
+.guru-avatar-emoji { line-height:1; }
+.guru-name { font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:0.15rem; padding:0 0.8rem; }
+.guru-jabatan { font-size:0.7rem; color:var(--teal); font-weight:600; margin-bottom:0.15rem; }
+.guru-mapel { font-size:0.7rem; color:var(--text-muted); margin-bottom:1.2rem; padding:0 0.8rem; }
 
 /* ── KONTAK ── */
 #kontak { background: var(--bg); }
-.kontak-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
-.kontak-info { display: flex; flex-direction: column; gap: 1.2rem; }
-.kontak-item {
-  display: flex; gap: 1rem; align-items: flex-start;
-  padding: 1.2rem; background: white;
-  border: 1px solid var(--border); border-radius: 10px;
-  box-shadow: var(--shadow-sm); transition: all 0.2s;
-}
-.kontak-item:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
-.kontak-icon {
-  width: 44px; height: 44px; flex-shrink: 0;
-  background: var(--teal-pale); border: 1px solid var(--teal-mid);
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
-}
-.kontak-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem; }
-.kontak-value { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.4; }
-.form-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; box-shadow: var(--shadow-md); }
-.form-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
-.form-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.form-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
-.form-input, .form-select, .form-textarea {
-  background: var(--bg); border: 1.5px solid var(--border);
-  border-radius: 8px; padding: 10px 14px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text);
-  outline: none; transition: border-color 0.2s, background 0.2s;
-  width: 100%;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--teal); background: white; }
-.form-input::placeholder, .form-textarea::placeholder { color: var(--text-light); }
-.form-textarea { resize: none; }
+.kontak-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:3rem; align-items:start; }
+.kontak-info { display:flex; flex-direction:column; gap:1rem; }
+.kontak-item { display:flex; gap:0.9rem; align-items:flex-start; padding:1rem; background:white; border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow-sm); transition:all 0.2s; }
+.kontak-item:hover { border-color:var(--teal-mid); box-shadow:var(--shadow-md); }
+.kontak-icon { width:40px; height:40px; flex-shrink:0; background:var(--teal-pale); border:1px solid var(--teal-mid); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+.kontak-label { font-size:0.65rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.2rem; }
+.kontak-value { font-size:0.9rem; font-weight:500; color:var(--text); line-height:1.4; }
+.form-card { background:white; border:1px solid var(--border); border-radius:16px; padding:2rem; box-shadow:var(--shadow-md); }
+.form-title { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--navy); margin-bottom:0.3rem; }
+.form-subtitle { font-size:0.82rem; color:var(--text-muted); margin-bottom:1.5rem; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+.form-group { display:flex; flex-direction:column; gap:0.35rem; margin-bottom:0.9rem; }
+.form-label { font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); }
+.form-input,.form-select,.form-textarea { background:var(--bg); border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-family:'DM Sans',sans-serif; font-size:0.88rem; color:var(--text); outline:none; transition:border-color 0.2s,background 0.2s; width:100%; }
+.form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--teal); background:white; }
+.form-input::placeholder,.form-textarea::placeholder { color:var(--text-light); }
+.form-textarea { resize:none; }
 
 /* ── FOOTER ── */
-footer { background: var(--navy); padding: 4rem 3rem 2rem; }
-.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2rem; }
-.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
-.footer-brand-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
-.footer-desc { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.5); }
-.footer-col-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1.2rem; }
-.footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
-.footer-links a { font-size: 0.85rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: white; }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
-.footer-social { display: flex; gap: 0.8rem; }
-.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: all 0.2s; }
-.footer-social a:hover { border-color: var(--teal-light); color: var(--teal-light); background: rgba(14,158,140,0.1); }
-
+footer { background:var(--navy); padding:3.5rem 2rem 2rem; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:2.5rem; padding-bottom:2.5rem; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:1.5rem; }
+.footer-brand-name { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:white; margin-bottom:0.2rem; }
+.footer-brand-sub { font-size:0.74rem; color:rgba(255,255,255,0.4); margin-bottom:0.8rem; }
+.footer-desc { font-size:0.82rem; line-height:1.7; color:rgba(255,255,255,0.5); }
+.footer-col-title { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal-light); margin-bottom:1rem; }
+.footer-links { display:flex; flex-direction:column; gap:0.5rem; }
+.footer-links a { font-size:0.82rem; color:rgba(255,255,255,0.5); text-decoration:none; transition:color 0.2s; }
+.footer-links a:hover { color:white; }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+.footer-copy { font-size:0.76rem; color:rgba(255,255,255,0.3); }
+.footer-social { display:flex; gap:0.6rem; }
+.footer-social a { width:32px; height:32px; border:1px solid rgba(255,255,255,0.15); border-radius:7px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.85rem; transition:all 0.2s; }
+.footer-social a:hover { border-color:var(--teal-light); color:var(--teal-light); }
 
 /* ── SKELETON ── */
-@keyframes shimmer {
-  0% { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
-}
-.skel {
-  background: linear-gradient(90deg, rgba(13,43,62,0.05) 25%, rgba(13,43,62,0.1) 50%, rgba(13,43,62,0.05) 75%);
-  background-size: 600px 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 4px;
-}
-
-/* ── MOBILE ── */
-@media (max-width: 900px) {
-  nav { padding: 0 1.2rem; }
-  .nav-links { display: none; }
-  section { padding: 3.5rem 1.2rem; }
-  .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
-  .hero-visual { max-width: 320px; margin: 0 auto; }
-  .hero-stats { justify-content: center; }
-  .profil-grid, .kontak-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .program-grid { grid-template-columns: 1fr 1fr; }
-  .prestasi-grid { grid-template-columns: 1fr 1fr; }
-  .guru-grid { grid-template-columns: 1fr 1fr; }
-  .galeri-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
-  .galeri-item.wide, .galeri-item.tall, .galeri-item.wide.tall { grid-column: span 1; grid-row: span 1; }
-  .pengumuman-layout { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-  .form-row { grid-template-columns: 1fr; }
-  footer { padding: 3rem 1.2rem 2rem; }
-}
+@keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
+.skel { background:linear-gradient(90deg,rgba(13,43,62,0.05) 25%,rgba(13,43,62,0.1) 50%,rgba(13,43,62,0.05) 75%); background-size:600px 100%; animation:shimmer 1.5s infinite; border-radius:4px; }
 
 /* ── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ═══════════════════════════════
+   MOBILE RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr 360px; gap: 2rem; }
+  .prestasi-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 768px) {
+  /* Nav */
+  nav { padding: 0 1rem; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-brand-name { font-size: 0.82rem; }
+  .nav-brand-sub { display: none; }
+
+  /* Hero */
+  section { padding: 3rem 1.2rem; }
+  .hero-inner { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.2rem; }
+  .hero-visual { order: -1; }
+  .hero-card { max-width: 380px; margin: 0 auto; }
+  .school-photo { height: 160px; }
+  .hero-title { font-size: clamp(2rem, 7vw, 2.8rem); }
+  .hero-stats { justify-content: flex-start; gap: 1.2rem; }
+
+  /* Profil */
+  .profil-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .profil-accent-card { bottom: -14px; right: -10px; }
+
+  /* Pengumuman */
+  .pengumuman-layout { grid-template-columns: 1fr; }
+
+  /* Program */
+  .program-grid { grid-template-columns: repeat(2,1fr); }
+
+  /* Prestasi */
+  .prestasi-grid { grid-template-columns: repeat(2,1fr); }
+
+  /* Galeri */
+  .galeri-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: auto; }
+  .galeri-item.wide,.galeri-item.tall,.galeri-item.wide.tall { grid-column:span 1; grid-row:span 1; }
+  .galeri-item { height: 140px; }
+
+  /* Guru */
+  .guru-grid { grid-template-columns: repeat(2,1fr); }
+
+  /* Kontak */
+  .kontak-grid { grid-template-columns: 1fr; }
+
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  footer { padding: 2.5rem 1.2rem 1.5rem; }
+
+  /* Form */
+  .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero-stats { gap: 1rem; }
+  .hero-stat-num { font-size: 1.5rem; }
+  .program-grid { grid-template-columns: 1fr; }
+  .prestasi-grid { grid-template-columns: 1fr 1fr; }
+  .guru-grid { grid-template-columns: repeat(2,1fr); }
+  .profil-details { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .hero-card-stats { grid-template-columns: repeat(3,1fr); }
+}
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
 <div id="toast"><span id="toast-icon">📡</span><span id="toast-msg">Menghubungkan...</span></div>
 
 <!-- ── NAV ── -->
 <nav id="navbar">
   <a href="#" class="nav-brand">
-    <div class="nav-logo-box">🎓</div>
+    <div class="nav-logo-box" id="nav-logo-box">
+      <span class="nav-logo-emoji">🎓</span>
+    </div>
     <div class="nav-brand-text">
       <div class="nav-brand-name" id="nav-nama-sekolah">SMPN 3 Aesesa</div>
       <div class="nav-brand-sub">Sekolah Menengah Pertama Negeri</div>
@@ -621,64 +476,76 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
     <li><a href="#prestasi">Prestasi</a></li>
     <li><a href="#guru">Guru & Staff</a></li>
     <li><a href="#kontak" class="nav-cta">Kontak</a></li>
-    <li><div class="nav-status disconnected" id="gs-dot" title="Status koneksi Google Sheets"></div></li>
+    <li><div class="nav-status" id="gs-dot" title="Status koneksi"></div></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#profil" onclick="closeMenu()">Profil Sekolah</a>
+  <a href="#pengumuman" onclick="closeMenu()">Pengumuman</a>
+  <a href="#program" onclick="closeMenu()">Program</a>
+  <a href="#prestasi" onclick="closeMenu()">Prestasi</a>
+  <a href="#guru" onclick="closeMenu()">Guru & Staff</a>
+  <a href="#kontak" class="nav-cta-mobile" onclick="closeMenu()">Kontak Kami</a>
+</div>
 
 <!-- ── HERO ── -->
 <section class="hero" id="home">
   <div class="hero-geo">
-    <div class="hero-geo-circle-1"></div>
-    <div class="hero-geo-circle-2"></div>
     <div class="hero-geo-lines"></div>
-    <div class="hero-geo-accent"></div>
+    <div class="hero-geo-blob1"></div>
+    <div class="hero-geo-blob2"></div>
   </div>
   <div class="hero-inner">
+    <!-- Kiri -->
     <div class="hero-left">
-      <div class="hero-badge"><span></span> <span id="hero-akreditasi">Akreditasi A</span></div>
-      <h1 class="hero-title" id="hero-title">
-        SMP Negeri 3<br><em>Aesesa</em>
-      </h1>
-      <p class="hero-desc" id="hero-desc">
-        Membentuk generasi cerdas, berkarakter, dan berdaya saing tinggi melalui pendidikan berkualitas di Kabupaten Nagekeo, Nusa Tenggara Timur.
-      </p>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span id="hero-akreditasi">Akreditasi A</span>
+      </div>
+      <h1 class="hero-title" id="hero-title">SMP Negeri 3<br><em>Aesesa</em></h1>
+      <p class="hero-desc" id="hero-desc">Membentuk generasi cerdas, berkarakter, dan berdaya saing tinggi melalui pendidikan berkualitas di Kabupaten Nagekeo, Nusa Tenggara Timur.</p>
       <div class="hero-actions">
         <a href="#pengumuman" class="btn-primary">Pengumuman Terbaru</a>
         <a href="#profil" class="btn-outline">Profil Sekolah</a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-siswa">450+</div>
-          <div class="hero-stat-label">Siswa Aktif</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-guru">32</div>
-          <div class="hero-stat-label">Tenaga Pengajar</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-tahun">25+</div>
-          <div class="hero-stat-label">Tahun Berdiri</div>
-        </div>
+        <div class="hero-stat"><div class="hero-stat-num" id="stat-siswa">270+</div><div class="hero-stat-label">Siswa Aktif</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="stat-guru">36</div><div class="hero-stat-label">Tenaga Pengajar</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="stat-tahun">15+</div><div class="hero-stat-label">Tahun Berdiri</div></div>
       </div>
     </div>
+
+    <!-- Kanan — Hero Card -->
     <div class="hero-visual">
-      <div class="hero-card-main">
-        <div class="school-emblem">🏫</div>
-        <div class="hero-card-name" id="hero-card-nama">SMP Negeri 3 Aesesa</div>
-        <div class="hero-card-sub" id="hero-card-alamat">Kabupaten Nagekeo, NTT</div>
-        <div class="hero-card-pills">
-          <span class="pill pill-teal">Terakreditasi A</span>
-          <span class="pill pill-navy">Negeri</span>
-          <span class="pill pill-amber">NTT</span>
+      <div class="hero-card">
+        <!-- Foto sekolah — diisi dari kolom foto_sekolah di sheet info -->
+        <div class="school-photo" id="school-photo">
+          <span class="school-photo-fallback">🏫</span>
+          <img id="school-photo-img" src="" alt="Foto Sekolah" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
         </div>
-      </div>
-      <div class="hero-mini-card hero-mini-1">
-        <span class="hero-mini-icon">🏆</span>
-        <div><div class="hero-mini-label" id="hero-mini-prestasi">15+ Prestasi</div><div class="hero-mini-sub">Tahun 2024</div></div>
-      </div>
-      <div class="hero-mini-card hero-mini-2">
-        <span class="hero-mini-icon">📚</span>
-        <div><div class="hero-mini-label">Kurikulum Merdeka</div><div class="hero-mini-sub">Implementasi Penuh</div></div>
+        <div class="hero-card-body">
+          <div class="hero-card-name" id="hero-card-nama">SMP Negeri 3 Aesesa</div>
+          <div class="hero-card-sub" id="hero-card-alamat">Kabupaten Nagekeo, NTT</div>
+          <div class="hero-card-pills">
+            <span class="pill pill-teal" id="pill-akreditasi">Terakreditasi A</span>
+            <span class="pill pill-navy">Negeri</span>
+            <span class="pill pill-amber">NTT</span>
+          </div>
+          <div class="hero-card-info">
+            <span class="hero-card-info-icon">📚</span>
+            <span id="hero-kurikulum">Kurikulum Merdeka – Implementasi Penuh</span>
+          </div>
+        </div>
+        <div class="hero-card-stats">
+          <div class="hero-card-stat"><div class="hero-card-stat-num" id="card-stat-siswa">270+</div><div class="hero-card-stat-label">Siswa</div></div>
+          <div class="hero-card-stat"><div class="hero-card-stat-num" id="card-stat-guru">36</div><div class="hero-card-stat-label">Guru</div></div>
+          <div class="hero-card-stat"><div class="hero-card-stat-num" id="card-stat-ekskul">4+</div><div class="hero-card-stat-label">Ekskul</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -699,9 +566,13 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
   <div class="section-inner">
     <div class="profil-grid">
       <div class="profil-visual reveal">
-        <div class="profil-img-frame">🏫</div>
+        <!-- Foto profil — dari kolom foto_profil di sheet info -->
+        <div class="profil-img-frame" id="profil-img-frame">
+          <span class="profil-img-fallback">🏫</span>
+          <img id="profil-photo-img" src="" alt="Foto Sekolah" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+        </div>
         <div class="profil-accent-card">
-          <div class="profil-accent-num" id="profil-stat-ekskul">12+</div>
+          <div class="profil-accent-num" id="profil-stat-ekskul">4+</div>
           <div class="profil-accent-label">Ekstrakurikuler</div>
         </div>
       </div>
@@ -739,21 +610,18 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
     </div>
     <div class="pengumuman-layout">
       <div class="pengumuman-list" id="pengumuman-list">
-        <!-- skeleton -->
-        <div style="padding:1.8rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-          <div class="skel" style="height:14px;width:30%;margin-bottom:0.8rem;"></div>
-          <div class="skel" style="height:18px;width:75%;margin-bottom:0.5rem;"></div>
-          <div class="skel" style="height:14px;width:90%;"></div>
-          
+        <div style="padding:1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+          <div class="skel" style="height:12px;width:28%;margin-bottom:0.7rem;"></div>
+          <div class="skel" style="height:16px;width:72%;margin-bottom:0.5rem;"></div>
+          <div class="skel" style="height:12px;width:88%;"></div>
         </div>
-        <div style="padding:1.8rem 0; border-bottom:1px solid var(--border); opacity:0.6;">
-          <div class="skel" style="height:14px;width:25%;margin-bottom:0.8rem;"></div>
-          <div class="skel" style="height:18px;width:65%;margin-bottom:0.5rem;"></div>
-          <div class="skel" style="height:14px;width:80%;"></div>
+        <div style="padding:1.5rem 0;border-bottom:1px solid var(--border);opacity:0.6;">
+          <div class="skel" style="height:12px;width:22%;margin-bottom:0.7rem;"></div>
+          <div class="skel" style="height:16px;width:62%;margin-bottom:0.5rem;"></div>
+          <div class="skel" style="height:12px;width:78%;"></div>
         </div>
       </div>
       <div class="sidebar">
-        <!-- Info Sekolah: dari Google Sheets sheet 'info' -->
         <div class="sidebar-card reveal">
           <div class="sidebar-card-title">🏫 Informasi Sekolah</div>
           <div class="info-row"><span class="info-row-icon">📍</span><div><div class="info-row-label">Alamat</div><div class="info-row-value" id="info-alamat">Kecamatan Aesesa, Kab. Nagekeo, NTT</div></div></div>
@@ -761,17 +629,15 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
           <div class="info-row"><span class="info-row-icon">✉️</span><div><div class="info-row-label">Email</div><div class="info-row-value" id="info-email">—</div></div></div>
           <div class="info-row"><span class="info-row-icon">🕐</span><div><div class="info-row-label">Jam Belajar</div><div class="info-row-value" id="info-jam">Senin–Jumat: 07.00–14.00 WITA</div></div></div>
         </div>
-        <!-- PPDB -->
         <div class="sidebar-card reveal">
           <div class="sidebar-card-title">📋 PPDB &amp; Pendaftaran</div>
-          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-bottom:1rem;" id="info-ppdb">Informasi Penerimaan Peserta Didik Baru akan diumumkan melalui website ini dan papan pengumuman sekolah.</p>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;" id="info-ppdb">Informasi PPDB akan diumumkan melalui website ini dan papan pengumuman sekolah.</p>
           <a href="#kontak" class="link-btn">Hubungi Sekretariat <span>→</span></a>
           <a href="#" class="link-btn" id="link-ppdb">Formulir Pendaftaran <span>→</span></a>
         </div>
-        <!-- Jadwal Pelajaran -->
         <div class="sidebar-card reveal">
           <div class="sidebar-card-title">📅 Kalender Akademik</div>
-          <p id="info-kalender" style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-bottom:1rem;">Tahun Pelajaran 2024/2025. Semester Genap: Januari – Juni 2025.</p>
+          <p id="info-kalender" style="font-size:0.82rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">Tahun Pelajaran 2024/2025. Semester Genap: Januari – Juni 2025.</p>
           <a href="#" class="link-btn" id="link-kalender">Unduh Kalender <span>→</span></a>
         </div>
       </div>
@@ -779,7 +645,7 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
   </div>
 </section>
 
-<!-- ── PROGRAM / EKSKUL ── -->
+<!-- ── PROGRAM ── -->
 <section id="program">
   <div class="section-inner">
     <div class="section-header reveal">
@@ -787,10 +653,9 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
       <h2 class="section-title">Program &amp; <em>Ekstrakurikuler</em></h2>
     </div>
     <div class="program-grid" id="program-grid">
-      <!-- Skeleton -->
-      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
-      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
-      <div class="program-card reveal"><div class="skel" style="height:140px;border-radius:12px 12px 0 0;"></div><div style="padding:1.2rem;"><div class="skel" style="height:12px;width:40%;margin-bottom:0.5rem;"></div><div class="skel" style="height:16px;width:70%;margin-bottom:0.5rem;"></div><div class="skel" style="height:12px;width:90%;"></div></div></div>
+      <div class="program-card reveal"><div class="skel" style="height:130px;"></div><div style="padding:1rem;"><div class="skel" style="height:10px;width:38%;margin-bottom:0.5rem;"></div><div class="skel" style="height:14px;width:65%;margin-bottom:0.4rem;"></div><div class="skel" style="height:10px;width:88%;"></div></div></div>
+      <div class="program-card reveal"><div class="skel" style="height:130px;"></div><div style="padding:1rem;"><div class="skel" style="height:10px;width:38%;margin-bottom:0.5rem;"></div><div class="skel" style="height:14px;width:65%;margin-bottom:0.4rem;"></div><div class="skel" style="height:10px;width:88%;"></div></div></div>
+      <div class="program-card reveal"><div class="skel" style="height:130px;"></div><div style="padding:1rem;"><div class="skel" style="height:10px;width:38%;margin-bottom:0.5rem;"></div><div class="skel" style="height:14px;width:65%;margin-bottom:0.4rem;"></div><div class="skel" style="height:10px;width:88%;"></div></div></div>
     </div>
   </div>
 </section>
@@ -803,35 +668,45 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
       <h2 class="section-title">Prestasi <em>Unggulan</em></h2>
     </div>
     <div class="prestasi-grid" id="prestasi-grid">
-      <!-- Skeleton -->
-      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
-      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
-      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
-      <div class="prestasi-card reveal"><div class="skel" style="height:40px;width:40px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:16px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:50%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:36px;width:36px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:10px;width:58%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:14px;width:76%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:48%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:36px;width:36px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:10px;width:58%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:14px;width:76%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:48%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:36px;width:36px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:10px;width:58%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:14px;width:76%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:48%;margin:0 auto;"></div></div>
+      <div class="prestasi-card reveal"><div class="skel" style="height:36px;width:36px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:10px;width:58%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:14px;width:76%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:48%;margin:0 auto;"></div></div>
     </div>
   </div>
 </section>
 
 <!-- ── GALERI ── -->
-<section id="galeri" style="background:var(--bg);">
+<section id="galeri">
   <div class="section-inner">
     <div class="section-header reveal">
       <p class="section-eyebrow">Momen Sekolah</p>
       <h2 class="section-title">Galeri <em>Kegiatan</em></h2>
     </div>
-    <div class="galeri-grid reveal">
-      <div class="galeri-item wide tall" style="background:linear-gradient(135deg,#E6F5F3,#C8E8E4);font-size:5rem;">🏫<div class="galeri-overlay"><span class="galeri-overlay-text">Gedung Sekolah SMPN 3 Aesesa</span></div></div>
-      <div class="galeri-item" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);">🏆<div class="galeri-overlay"><span class="galeri-overlay-text">Upacara Penghargaan Prestasi</span></div></div>
-      <div class="galeri-item" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">⚽<div class="galeri-overlay"><span class="galeri-overlay-text">Pertandingan Olahraga</span></div></div>
-      <div class="galeri-item tall" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">📚<div class="galeri-overlay"><span class="galeri-overlay-text">Kegiatan Belajar Mengajar</span></div></div>
-      <div class="galeri-item" style="background:linear-gradient(135deg,#FDF2F8,#F9A8D4);">🎭<div class="galeri-overlay"><span class="galeri-overlay-text">Pentas Seni Budaya</span></div></div>
-      <div class="galeri-item" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">🔬<div class="galeri-overlay"><span class="galeri-overlay-text">Praktikum Laboratorium</span></div></div>
-      <div class="galeri-item" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">🌱<div class="galeri-overlay"><span class="galeri-overlay-text">Program Adiwiyata</span></div></div>
+    <div class="galeri-grid reveal" id="galeri-grid">
+      <!-- skeleton -->
+      <div class="galeri-item wide tall skel"></div>
+      <div class="galeri-item skel"></div>
+      <div class="galeri-item skel"></div>
+      <div class="galeri-item tall skel"></div>
+      <div class="galeri-item skel"></div>
+      <div class="galeri-item skel"></div>
+      <div class="galeri-item skel"></div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem;" onclick="closeLightbox()">
+      <button onclick="closeLightbox()" style="position:absolute;top:1rem;right:1.2rem;background:none;border:none;color:white;font-size:2rem;cursor:pointer;line-height:1;">×</button>
+      <button id="lb-prev" onclick="event.stopPropagation();lbNav(-1)" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:white;font-size:1.6rem;width:44px;height:44px;border-radius:50%;cursor:pointer;">‹</button>
+      <button id="lb-next" onclick="event.stopPropagation();lbNav(1)"  style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:white;font-size:1.6rem;width:44px;height:44px;border-radius:50%;cursor:pointer;">›</button>
+      <img id="lb-img" src="" alt="" style="max-width:90vw;max-height:78vh;border-radius:10px;object-fit:contain;" onclick="event.stopPropagation()">
+      <div id="lb-caption" style="color:rgba(255,255,255,0.85);font-size:0.9rem;text-align:center;max-width:600px;"></div>
+      <div id="lb-counter" style="color:rgba(255,255,255,0.45);font-size:0.78rem;"></div>
     </div>
   </div>
 </section>
 
-<!-- ── GURU & STAFF ── -->
+<!-- ── GURU ── -->
 <section id="guru">
   <div class="section-inner">
     <div class="section-header reveal">
@@ -839,11 +714,10 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
       <h2 class="section-title">Guru &amp; <em>Tenaga Kependidikan</em></h2>
     </div>
     <div class="guru-grid" id="guru-grid">
-      <!-- Skeleton -->
-      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
-      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
-      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
-      <div class="guru-card reveal"><div style="text-align:center;padding:1.5rem;"><div class="skel" style="width:70px;height:70px;border-radius:50%;margin:0 auto 1rem;"></div><div class="skel" style="height:14px;width:80%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:60%;margin:0 auto 0.5rem;"></div><div class="skel" style="height:12px;width:70%;margin:0 auto 1.2rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.2rem;"><div class="skel" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:12px;width:75%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:55%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:65%;margin:0 auto 1rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.2rem;"><div class="skel" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:12px;width:75%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:55%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:65%;margin:0 auto 1rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.2rem;"><div class="skel" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:12px;width:75%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:55%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:65%;margin:0 auto 1rem;"></div></div></div>
+      <div class="guru-card reveal"><div style="text-align:center;padding:1.2rem;"><div class="skel" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.8rem;"></div><div class="skel" style="height:12px;width:75%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:55%;margin:0 auto 0.4rem;"></div><div class="skel" style="height:10px;width:65%;margin:0 auto 1rem;"></div></div></div>
     </div>
   </div>
 </section>
@@ -857,7 +731,7 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
     </div>
     <div class="kontak-grid">
       <div class="kontak-info reveal">
-        <div class="kontak-item"><div class="kontak-icon">📍</div><div><div class="kontak-label">Alamat Sekolah</div><div class="kontak-value" id="kontak-alamat">Kecamatan Aesesa, Kabupaten Nagekeo, Nusa Tenggara Timur</div></div></div>
+        <div class="kontak-item"><div class="kontak-icon">📍</div><div><div class="kontak-label">Alamat Sekolah</div><div class="kontak-value" id="kontak-alamat">Kecamatan Aesesa, Kabupaten Nagekeo, NTT</div></div></div>
         <div class="kontak-item"><div class="kontak-icon">📞</div><div><div class="kontak-label">Nomor Telepon</div><div class="kontak-value" id="kontak-telepon">—</div></div></div>
         <div class="kontak-item"><div class="kontak-icon">✉️</div><div><div class="kontak-label">Email Resmi</div><div class="kontak-value" id="kontak-email">—</div></div></div>
         <div class="kontak-item"><div class="kontak-icon">🌐</div><div><div class="kontak-label">Website</div><div class="kontak-value" id="kontak-website">smpn3aesesa.sch.id</div></div></div>
@@ -869,7 +743,7 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
         <p class="form-subtitle">Kami akan merespons dalam 1×24 jam pada hari kerja.</p>
         <div class="form-row">
           <div class="form-group"><label class="form-label">Nama Lengkap</label><input type="text" id="form-nama" class="form-input" placeholder="Nama Anda..."></div>
-          <div class="form-group"><label class="form-label">Email / No. HP</label><input type="text" id="form-kontak" class="form-input" placeholder="email atau no. HP..."></div>
+          <div class="form-group"><label class="form-label">Email / No. HP</label><input type="text" id="form-kontak-input" class="form-input" placeholder="email atau no. HP..."></div>
         </div>
         <div class="form-group"><label class="form-label">Keperluan</label>
           <select id="form-keperluan" class="form-select">
@@ -920,65 +794,129 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; }
   </div>
 </footer>
 
-
-
 <script>
-// ═══════════════════════════════════════════════
-//  GOOGLE SHEETS INTEGRATION – SMPN 3 AESESA
-// ═══════════════════════════════════════════════
-// ── GANTI URL INI dengan URL Apps Script kamu ──────────────────
-//  Cara: Google Sheets → Extensions → Apps Script → Deploy → Web App
-//  Salin URL deployment dan paste menggantikan teks di bawah ini.
+// ═══════════════════════════════════════════
+//  KONFIGURASI — ganti dengan URL Apps Script Anda
+// ═══════════════════════════════════════════
 const GS_URL = 'https://script.google.com/macros/s/AKfycbyGg59BgwXZc2d5aEX_Tc45NyjHqIbq2uWt5CqHHXI7uXWscUGjLTm86rUoL-iUIrx-WQ/exec';
 
-// ── TOAST ────────────────────────────────────────
-function showToast(msg, icon='📡', duration=3000) {
+// ── KONVERSI URL GOOGLE DRIVE → URL LANGSUNG ───────────
+// Mendukung format:
+//   https://drive.google.com/file/d/FILE_ID/view
+//   https://drive.google.com/open?id=FILE_ID
+//   https://drive.google.com/uc?id=FILE_ID
+//   URL langsung lainnya (imgbb, dll)
+function toDirectImageUrl(url) {
+  if (!url || url.trim() === '') return '';
+  url = url.trim();
+
+  // Sudah URL langsung (bukan drive)
+  if (!url.includes('drive.google.com')) return url;
+
+  // Ekstrak FILE_ID dari berbagai format Google Drive
+  let fileId = '';
+  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m1) fileId = m1[1];
+  else if (m2) fileId = m2[1];
+
+  if (!fileId) return url; // Tidak bisa diparse, kembalikan apa adanya
+
+  // Format thumbnail Google Drive — tidak butuh login, bebas CORS
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
+}
+
+// ── PASANG FOTO KE ELEMEN IMG ──────────────────────────
+function setPhoto(imgId, url, fallbackEl) {
+  const img = document.getElementById(imgId);
+  const direct = toDirectImageUrl(url);
+  if (!img || !direct) return;
+  img.src = direct;
+  img.onload = () => {
+    img.classList.add('loaded');
+    // Sembunyikan fallback emoji kalau foto berhasil
+    if (fallbackEl) {
+      const fb = document.querySelector(fallbackEl);
+      if (fb) fb.style.display = 'none';
+    }
+  };
+  img.onerror = () => { img.style.display = 'none'; };
+}
+
+// ── HAMBURGER MENU ─────────────────────────────────────
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('nav-mobile').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('nav-mobile').classList.remove('open');
+}
+
+// ── TOAST ──────────────────────────────────────────────
+let _toastTimer = null;
+function showToast(msg, icon = '📡', duration = 3000) {
   const t = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
   document.getElementById('toast-icon').textContent = icon;
   t.classList.add('show');
-  if (duration > 0) setTimeout(() => t.classList.remove('show'), duration);
+  if (_toastTimer) clearTimeout(_toastTimer);
+  if (duration > 0) _toastTimer = setTimeout(() => t.classList.remove('show'), duration);
 }
 
-// ── STATUS DOT ────────────────────────────────────
+// ── STATUS DOT ─────────────────────────────────────────
 function setStatus(state) {
   const dot = document.getElementById('gs-dot');
   dot.className = 'nav-status ' + state;
-  dot.title = state === 'connected' ? 'Terhubung ke Google Sheets ✓'
-            : state === 'loading'   ? 'Memuat data...'
-            : 'Belum terhubung ke Google Sheets';
+  dot.title = { connected:'Terhubung ke Google Sheets ✓', loading:'Memuat data...', disconnected:'Tidak terhubung' }[state] || state;
 }
 
-// ── CONFIG PANEL ──────────────────────────────────
+// ── JSONP (bebas CORS) ─────────────────────────────────
+function fetchJSONP(url) {
+  return new Promise((resolve, reject) => {
+    const cb = '_gs_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const el = document.createElement('script');
+    const t  = setTimeout(() => { cleanup(); reject(new Error('Timeout')); }, 10000);
+    window[cb] = (data) => { cleanup(); resolve(data); };
+    function cleanup() { clearTimeout(t); delete window[cb]; el.parentNode && el.parentNode.removeChild(el); }
+    el.onerror = () => { cleanup(); reject(new Error('Script error')); };
+    el.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+    document.head.appendChild(el);
+  });
+}
 
-
-
-
-// ── FETCH SHEET ───────────────────────────────────
 async function fetchSheet(name) {
-  if (!GS_URL) return null;
-  const res = await fetch(`${GS_URL}?sheet=${name}`);
-  if (!res.ok) throw new Error(`Gagal fetch '${name}'`);
-  return (await res.json()).data || [];
+  const d = await fetchJSONP(`${GS_URL}?sheet=${encodeURIComponent(name)}`);
+  return d.data || [];
 }
 
-// ── LOAD INFO ─────────────────────────────────────
+// ── HELPER SET TEXT ────────────────────────────────────
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (el && val != null && String(val).trim() !== '') el.innerHTML = String(val);
+}
+
+// ── LOAD INFO ──────────────────────────────────────────
 async function loadInfo() {
-  const data = await fetchSheet('info');
-  if (!data || !data.length) return;
+  const rows = await fetchSheet('info');
+  if (!rows.length) return;
   const info = {};
-  data.forEach(r => { if (r.key) info[r.key] = r.value; });
-  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null && val !== '') el.innerHTML = val; };
+  rows.forEach(r => { if (r.key) info[String(r.key).trim()] = r.value; });
+
   set('nav-nama-sekolah',    info.nama_sekolah);
-  set('hero-title',          info.hero_title || (info.nama_sekolah ? `<em>${info.nama_sekolah}</em>` : null));
+  set('hero-title',          info.hero_title);
   set('hero-desc',           info.hero_desc);
   set('hero-akreditasi',     info.akreditasi ? `Akreditasi ${info.akreditasi}` : null);
+  set('pill-akreditasi',     info.akreditasi ? `Terakreditasi ${info.akreditasi}` : null);
   set('hero-card-nama',      info.nama_sekolah);
   set('hero-card-alamat',    info.kota);
-  set('hero-mini-prestasi',  info.jml_prestasi ? `${info.jml_prestasi} Prestasi` : null);
+  set('hero-kurikulum',      info.kurikulum ? `${info.kurikulum} – Implementasi Penuh` : null);
   set('stat-siswa',          info.jml_siswa);
   set('stat-guru',           info.jml_guru);
   set('stat-tahun',          info.tahun_aktif);
+  set('card-stat-siswa',     info.jml_siswa);
+  set('card-stat-guru',      info.jml_guru);
+  set('card-stat-ekskul',    info.jml_ekskul ? `${info.jml_ekskul}+` : null);
   set('profil-desc1',        info.profil_1);
   set('profil-desc2',        info.profil_2);
   set('profil-stat-siswa',   info.jml_siswa);
@@ -1006,20 +944,44 @@ async function loadInfo() {
   set('footer-sub',          info.kota);
   set('footer-desc',         info.footer_desc);
   set('footer-copy',         info.footer_copy);
+
+  // ── FOTO SEKOLAH ──
+  // Kolom foto_sekolah  → foto di hero card & nav logo
+  // Kolom foto_profil   → foto di bagian Profil
+  // Bisa pakai URL Google Drive (share link) atau URL langsung (imgbb, dll)
+  if (info.foto_sekolah) {
+    setPhoto('school-photo-img', info.foto_sekolah, '#school-photo .school-photo-fallback');
+    // Nav logo juga pakai foto
+    const logoBox = document.getElementById('nav-logo-box');
+    const logoEmoji = logoBox.querySelector('.nav-logo-emoji');
+    const logoImg = document.createElement('img');
+    logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:6px;display:none;';
+    logoImg.onload = () => { logoImg.style.display = 'block'; if(logoEmoji) logoEmoji.style.display='none'; };
+    logoImg.onerror = () => {};
+    logoImg.src = toDirectImageUrl(info.foto_sekolah);
+    logoBox.appendChild(logoImg);
+  }
+  if (info.foto_profil) {
+    setPhoto('profil-photo-img', info.foto_profil, '#profil-img-frame .profil-img-fallback');
+  } else if (info.foto_sekolah) {
+    // Fallback: pakai foto_sekolah juga untuk profil
+    setPhoto('profil-photo-img', info.foto_sekolah, '#profil-img-frame .profil-img-fallback');
+  }
+
+  // Links
   if (info.link_ppdb)     document.getElementById('link-ppdb').href     = info.link_ppdb;
   if (info.link_kalender) document.getElementById('link-kalender').href = info.link_kalender;
-  if (info.fb_url)        document.getElementById('social-fb').href     = info.fb_url;
-  if (info.ig_url)        document.getElementById('social-ig').href     = info.ig_url;
-  if (info.yt_url)        document.getElementById('social-yt').href     = info.yt_url;
-  if (info.wa_url)        document.getElementById('social-wa').href     = info.wa_url;
+  if (info.fb_url)  document.getElementById('social-fb').href = info.fb_url;
+  if (info.ig_url)  document.getElementById('social-ig').href = info.ig_url;
+  if (info.yt_url)  document.getElementById('social-yt').href = info.yt_url;
+  if (info.wa_url)  document.getElementById('social-wa').href = info.wa_url;
 }
 
-// ── LOAD PENGUMUMAN ───────────────────────────────
+// ── LOAD PENGUMUMAN ────────────────────────────────────
 async function loadPengumuman() {
-  const data = await fetchSheet('pengumuman');
-  if (!data || !data.length) return;
-  const list = document.getElementById('pengumuman-list');
-  list.innerHTML = data.map(r => `
+  const rows = await fetchSheet('pengumuman');
+  if (!rows.length) return;
+  document.getElementById('pengumuman-list').innerHTML = rows.map(r => `
     <div class="pengumuman-item">
       <div class="pengumuman-date-box">
         <div class="pengumuman-date-day">${r.tanggal || '—'}</div>
@@ -1031,208 +993,308 @@ async function loadPengumuman() {
         <div class="pengumuman-body">${r.isi || ''}</div>
       </div>
     </div>`).join('');
-  buildTicker(data);
+  buildTicker(rows);
 }
 
-// ── TICKER ────────────────────────────────────────
-function buildTicker(pengumuman) {
-  const items = pengumuman.map(r => `${r.judul || ''}`).filter(Boolean);
+function buildTicker(rows) {
+  const items = rows.map(r => r.judul || '').filter(Boolean);
   if (!items.length) return;
   const doubled = [...items, ...items];
-  document.getElementById('ticker-inner').innerHTML = doubled.map(t =>
-    `<span class="ticker-item"><span class="ticker-sep">◆</span>${t}</span>`
-  ).join('');
+  document.getElementById('ticker-inner').innerHTML = doubled
+    .map(t => `<span class="ticker-item"><span class="ticker-sep">◆</span>${t}</span>`).join('');
 }
 
-// ── LOAD PROGRAM ──────────────────────────────────
-const PROGRAM_BG_DEFAULT = [
-  'linear-gradient(135deg,#E6F5F3,#B2DDD8)',
-  'linear-gradient(135deg,#FEF3C7,#FDE68A)',
-  'linear-gradient(135deg,#E0F2FE,#BAE6FD)',
-  'linear-gradient(135deg,#F0FDF4,#BBF7D0)',
-  'linear-gradient(135deg,#FDF4FF,#E9D5FF)',
-  'linear-gradient(135deg,#FFF7ED,#FED7AA)',
-];
+// ── LOAD PROGRAM ───────────────────────────────────────
+const BG = ['linear-gradient(135deg,#E6F5F3,#B2DDD8)','linear-gradient(135deg,#FEF3C7,#FDE68A)','linear-gradient(135deg,#E0F2FE,#BAE6FD)','linear-gradient(135deg,#F0FDF4,#BBF7D0)','linear-gradient(135deg,#FDF4FF,#E9D5FF)','linear-gradient(135deg,#FFF7ED,#FED7AA)'];
+
 async function loadProgram() {
-  const data = await fetchSheet('program');
-  if (!data || !data.length) return;
-  document.getElementById('program-grid').innerHTML = data.map((r, i) => `
+  const rows = await fetchSheet('program');
+  if (!rows.length) return;
+  document.getElementById('program-grid').innerHTML = rows.map((r, i) => {
+    const hasFoto = r.foto && r.foto.trim() !== '';
+    const bg = r.warna || BG[i % BG.length];
+    return `
     <div class="program-card reveal visible">
-      <div class="program-thumb" style="background:${r.warna || PROGRAM_BG_DEFAULT[i % PROGRAM_BG_DEFAULT.length]};">
-        <span style="position:relative;z-index:1;">${r.ikon || '📚'}</span>
+      <div class="program-thumb" style="background:${hasFoto ? '#f0f4f7' : bg};">
+        ${hasFoto
+          ? `<img src="${toDirectImageUrl(r.foto)}" alt="${r.judul}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
+          : ''}
+        <span class="program-thumb-emoji">${hasFoto ? '' : (r.ikon || '📚')}</span>
       </div>
       <div class="program-body">
         <div class="program-tag">${r.kategori || ''}</div>
         <div class="program-title">${r.judul || ''}</div>
-        <div class="program-desc">${r.deskripsi || ''}</div>
+        <div class="program-desc">${r.deskripsi || r.deskrpisi || ''}</div>
         <div class="program-meta">📅 ${r.jadwal || ''}</div>
       </div>
+    </div>`;
+  }).join('');
+}
+
+// ── LOAD GALERI ────────────────────────────────────────
+// Sheet 'galeri' — kolom: foto | judul | ukuran
+//   foto   : URL Google Drive atau URL langsung
+//   judul  : keterangan foto
+//   ukuran : wide | tall | wide-tall | normal (opsional, default: normal)
+//            urutan item menentukan layout grid otomatis jika ukuran kosong
+
+// Layout default jika kolom ukuran tidak diisi (7 slot grid)
+const GALERI_DEFAULT_SIZE  = ['wide-tall','normal','normal','tall','normal','normal','normal'];
+const GALERI_DEFAULT_BG    = [
+  'linear-gradient(135deg,#E6F5F3,#C8E8E4)',
+  'linear-gradient(135deg,#FEF3C7,#FDE68A)',
+  'linear-gradient(135deg,#E0F2FE,#BAE6FD)',
+  'linear-gradient(135deg,#F0FDF4,#BBF7D0)',
+  'linear-gradient(135deg,#FDF2F8,#F9A8D4)',
+  'linear-gradient(135deg,#EFF6FF,#BFDBFE)',
+  'linear-gradient(135deg,#FFF7ED,#FED7AA)',
+];
+const GALERI_DEFAULT_EMOJI = ['🏫','🏆','⚽','📚','🎭','🔬','🌱'];
+
+// Array foto untuk lightbox
+let lbPhotos = [];
+let lbIndex  = 0;
+
+function openLightbox(idx) {
+  if (!lbPhotos.length) return;
+  lbIndex = idx;
+  updateLightbox();
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + lbPhotos.length) % lbPhotos.length;
+  updateLightbox();
+}
+function updateLightbox() {
+  const p = lbPhotos[lbIndex];
+  const img = document.getElementById('lb-img');
+  img.src = p.src;
+  document.getElementById('lb-caption').textContent = p.judul || '';
+  document.getElementById('lb-counter').textContent = `${lbIndex + 1} / ${lbPhotos.length}`;
+  document.getElementById('lb-prev').style.display = lbPhotos.length > 1 ? 'flex' : 'none';
+  document.getElementById('lb-next').style.display = lbPhotos.length > 1 ? 'flex' : 'none';
+}
+// Keyboard navigasi lightbox
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').style.display === 'none') return;
+  if (e.key === 'ArrowRight') lbNav(1);
+  if (e.key === 'ArrowLeft')  lbNav(-1);
+  if (e.key === 'Escape')     closeLightbox();
+});
+
+async function loadGaleri() {
+  const rows = await fetchSheet('galeri');
+
+  // Jika sheet tidak ada / kosong → tampilkan data statis
+  if (!rows || !rows.length) {
+    renderGaleriStatis();
+    return;
+  }
+
+  // Reset lightbox photos
+  lbPhotos = [];
+
+  const grid = document.getElementById('galeri-grid');
+  grid.innerHTML = rows.map((r, i) => {
+    const url    = toDirectImageUrl(r.foto || '');
+    const judul  = r.judul || r.keterangan || '';
+    const hasFoto = url !== '';
+
+    // Tentukan kelas ukuran
+    const raw = (r.ukuran || '').toLowerCase().trim();
+    let cls = '';
+    if      (raw === 'wide-tall' || raw === 'wide tall') cls = 'wide tall';
+    else if (raw === 'wide')  cls = 'wide';
+    else if (raw === 'tall')  cls = 'tall';
+    else cls = GALERI_DEFAULT_SIZE[i] || 'normal';
+    if (cls === 'normal') cls = '';
+
+    const bg    = GALERI_DEFAULT_BG[i % GALERI_DEFAULT_BG.length];
+    const emoji = GALERI_DEFAULT_EMOJI[i % GALERI_DEFAULT_EMOJI.length];
+    const lbIdx = lbPhotos.length;
+
+    if (hasFoto) lbPhotos.push({ src: url, judul });
+
+    return `
+    <div class="galeri-item ${cls}" style="background:${hasFoto ? '#0D2B3E' : bg};"
+         onclick="${hasFoto ? `openLightbox(${lbIdx})` : ''}">
+      ${hasFoto
+        ? `<img src="${url}" alt="${judul}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
+        : `<span>${emoji}</span>`
+      }
+      <div class="galeri-overlay"><span class="galeri-overlay-text">${judul}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderGaleriStatis() {
+  lbPhotos = [];
+  const items = [
+    {cls:'wide tall', bg:'linear-gradient(135deg,#E6F5F3,#C8E8E4)', emoji:'🏫', judul:'Gedung Sekolah SMPN 3 Aesesa'},
+    {cls:'',          bg:'linear-gradient(135deg,#FEF3C7,#FDE68A)', emoji:'🏆', judul:'Upacara Penghargaan Prestasi'},
+    {cls:'',          bg:'linear-gradient(135deg,#E0F2FE,#BAE6FD)', emoji:'⚽', judul:'Pertandingan Olahraga'},
+    {cls:'tall',      bg:'linear-gradient(135deg,#F0FDF4,#BBF7D0)', emoji:'📚', judul:'Kegiatan Belajar Mengajar'},
+    {cls:'',          bg:'linear-gradient(135deg,#FDF2F8,#F9A8D4)', emoji:'🎭', judul:'Pentas Seni Budaya'},
+    {cls:'',          bg:'linear-gradient(135deg,#EFF6FF,#BFDBFE)', emoji:'🔬', judul:'Praktikum Laboratorium'},
+    {cls:'',          bg:'linear-gradient(135deg,#FFF7ED,#FED7AA)', emoji:'🌱', judul:'Program Adiwiyata'},
+  ];
+  document.getElementById('galeri-grid').innerHTML = items.map(r => `
+    <div class="galeri-item ${r.cls}" style="background:${r.bg};">${r.emoji}
+      <div class="galeri-overlay"><span class="galeri-overlay-text">${r.judul}</span></div>
     </div>`).join('');
 }
 
-// ── LOAD PRESTASI ─────────────────────────────────
+// ── LOAD PRESTASI ──────────────────────────────────────
 async function loadPrestasi() {
-  const data = await fetchSheet('prestasi');
-  if (!data || !data.length) return;
-  document.getElementById('prestasi-grid').innerHTML = data.map(r => `
+  const rows = await fetchSheet('prestasi');
+  if (!rows.length) return;
+  document.getElementById('prestasi-grid').innerHTML = rows.map(r => `
     <div class="prestasi-card reveal visible">
       <span class="prestasi-medal">${r.medali || '🏅'}</span>
       <div class="prestasi-event">${r.event || ''}</div>
       <div class="prestasi-name">${r.nama || ''}</div>
-      <div class="prestasi-info">${r.info || ''} ${r.tahun ? '· ' + r.tahun : ''}</div>
+      <div class="prestasi-info">${r.info || ''}${r.tahun ? ' · ' + r.tahun : ''}</div>
     </div>`).join('');
 }
 
-// ── LOAD GURU ─────────────────────────────────────
+// ── LOAD GURU ──────────────────────────────────────────
 async function loadGuru() {
-  const data = await fetchSheet('guru');
-  if (!data || !data.length) return;
-  document.getElementById('guru-grid').innerHTML = data.map(r => `
+  const rows = await fetchSheet('guru');
+  if (!rows.length) return;
+  document.getElementById('guru-grid').innerHTML = rows.map(r => {
+    const hasFoto = r.foto && r.foto.trim() !== '';
+    return `
     <div class="guru-card reveal visible">
-      <div class="guru-avatar">${r.emoji || '👤'}</div>
+      <div class="guru-avatar">
+        ${hasFoto
+          ? `<img src="${toDirectImageUrl(r.foto)}" alt="${r.nama}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
+          : ''}
+        <span class="guru-avatar-emoji" ${hasFoto ? 'style="display:none"' : ''}>${r.emoji || '👤'}</span>
+      </div>
       <div class="guru-name">${r.nama || ''}</div>
       <div class="guru-jabatan">${r.jabatan || ''}</div>
       <div class="guru-mapel">${r.mapel || ''}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-// ── FORM SUBMIT ───────────────────────────────────
+// ── FORM SUBMIT ────────────────────────────────────────
 document.getElementById('form-submit').addEventListener('click', async () => {
   const nama      = document.getElementById('form-nama').value.trim();
-  const kontak    = document.getElementById('form-kontak').value.trim();
+  const kontak    = document.getElementById('form-kontak-input').value.trim();
   const keperluan = document.getElementById('form-keperluan').value;
   const pesan     = document.getElementById('form-pesan').value.trim();
-  if (!nama || !pesan) { showToast('Nama dan pesan wajib diisi!', '⚠️', 3000); return; }
-  if (GS_URL) {
-    showToast('Mengirim pesan...', '⏳', 0);
-    try {
-      await fetch(`${GS_URL}?action=pesan&nama=${encodeURIComponent(nama)}&kontak=${encodeURIComponent(kontak)}&keperluan=${encodeURIComponent(keperluan)}&pesan=${encodeURIComponent(pesan)}`);
-    } catch(e) {}
-  }
+  if (!nama)  { showToast('Nama wajib diisi!', '⚠️', 3000); return; }
+  if (!pesan) { showToast('Pesan wajib diisi!', '⚠️', 3000); return; }
+  const btn = document.getElementById('form-submit');
+  btn.disabled = true; btn.textContent = 'Mengirim...';
+  showToast('Mengirim pesan...', '⏳', 0);
+  try {
+    await fetchJSONP(`${GS_URL}?action=pesan&nama=${encodeURIComponent(nama)}&kontak=${encodeURIComponent(kontak)}&keperluan=${encodeURIComponent(keperluan)}&pesan=${encodeURIComponent(pesan)}`);
+  } catch(e) {}
   showToast('Pesan terkirim! Terima kasih 🙏', '✅', 5000);
-  document.getElementById('form-nama').value = '';
-  document.getElementById('form-kontak').value = '';
-  document.getElementById('form-keperluan').value = '';
-  document.getElementById('form-pesan').value = '';
+  ['form-nama','form-kontak-input','form-keperluan','form-pesan'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  btn.disabled = false; btn.textContent = 'Kirim Pesan →';
 });
 
-// ── LOAD ALL DATA ─────────────────────────────────
+// ── LOAD ALL ───────────────────────────────────────────
 async function loadAllData() {
-  if (!GS_URL || GS_URL.includes('GANTI_URL_INI')) {
-    setStatus('disconnected');
-    showToast('URL Apps Script belum diisi di source code', 'ℹ️', 6000);
+  setStatus('loading');
+  showToast('Memuat data...', '⏳', 0);
+  const results = await Promise.allSettled([
+    loadInfo(), loadPengumuman(), loadProgram(), loadPrestasi(), loadGuru(), loadGaleri()
+  ]);
+  const ok = results.filter(r => r.status === 'fulfilled').length;
+  if (ok === results.length) {
+    setStatus('connected'); showToast('Data berhasil dimuat ✓', '✅', 3000);
+  } else if (ok > 0) {
+    setStatus('connected'); showToast('Sebagian data dimuat', '⚠️', 4000);
+  } else {
+    setStatus('disconnected'); showToast('Gagal memuat. Menggunakan data statis.', '❌', 5000);
     loadStaticData(); return;
   }
-  setStatus('loading'); showToast('Memuat data dari Google Sheets...', '⏳', 0);
-  try {
-    await Promise.all([loadInfo(), loadPengumuman(), loadProgram(), loadPrestasi(), loadGuru()]);
-    setStatus('connected'); showToast('Data berhasil dimuat ✓', '✅', 3000);
-    setTimeout(loadAllData, 5 * 60 * 1000);
-  } catch(e) {
-    setStatus('disconnected'); showToast('Gagal memuat data. Cek URL Apps Script.', '❌', 5000);
-    console.error('[GS]', e); loadStaticData();
-  }
+  setTimeout(loadAllData, 5 * 60 * 1000);
 }
 
-// ── STATIC FALLBACK DATA ──────────────────────────
+// ── DATA STATIS (FALLBACK) ─────────────────────────────
 function loadStaticData() {
-  // Pengumuman statis
-  const stPengumuman = [
-    { tanggal:'16', bulan:'Mar', kategori:'Akademik', judul:'Jadwal Ujian Tengah Semester Genap 2024/2025', isi:'UTS Semester Genap akan dilaksanakan pada 17–22 Maret 2025. Siswa diharapkan hadir tepat waktu dengan membawa kartu ujian.' },
-    { tanggal:'12', bulan:'Mar', kategori:'PPDB', judul:'Pembukaan Pendaftaran PPDB Tahun Ajaran 2025/2026', isi:'Pendaftaran PPDB akan dibuka mulai 1 April 2025. Pendaftaran dilakukan secara online melalui website resmi sekolah.' },
-    { tanggal:'08', bulan:'Mar', kategori:'Prestasi', judul:'Selamat! Tim Olimpiade Sains Raih Juara 1 Tingkat Kabupaten', isi:'Tim olimpiade sains SMP Negeri 3 Aesesa berhasil meraih juara pertama pada OSN tingkat Kabupaten Nagekeo 2025.' },
-    { tanggal:'05', bulan:'Mar', kategori:'Kegiatan', judul:'Peringatan Hari Pendidikan Nasional – Lomba Kreativitas Siswa', isi:'Rangkaian kegiatan Hardiknas akan diselenggarakan pada 2 Mei 2025 dengan berbagai lomba kreativitas siswa.' },
-    { tanggal:'01', bulan:'Mar', kategori:'Umum', judul:'Libur Akhir Semester dan Jadwal Pembagian Raport', isi:'Pembagian raport semester ganjil dilaksanakan pada 22 Desember 2024. Siswa diwajibkan hadir bersama orang tua/wali.' },
+  renderGaleriStatis();
+  const stP = [
+    {tanggal:'16',bulan:'Mar',kategori:'Akademik',judul:'Jadwal UTS Semester Genap 2024/2025',isi:'UTS Semester Genap dilaksanakan 17–22 Maret 2025.'},
+    {tanggal:'12',bulan:'Mar',kategori:'PPDB',judul:'Pendaftaran PPDB 2025/2026 Dibuka',isi:'Pendaftaran PPDB dibuka 1 April 2025 secara online.'},
+    {tanggal:'08',bulan:'Mar',kategori:'Prestasi',judul:'Tim OSN Raih Juara 1 Tingkat Kabupaten',isi:'Tim olimpiade sains SMPN 3 Aesesa meraih juara 1 OSN Kab. Nagekeo 2025.'},
   ];
-  document.getElementById('pengumuman-list').innerHTML = stPengumuman.map(r => `
+  document.getElementById('pengumuman-list').innerHTML = stP.map(r => `
     <div class="pengumuman-item">
       <div class="pengumuman-date-box"><div class="pengumuman-date-day">${r.tanggal}</div><div class="pengumuman-date-mon">${r.bulan}</div></div>
-      <div class="pengumuman-content">
-        <span class="pengumuman-category">${r.kategori}</span>
-        <div class="pengumuman-title">${r.judul}</div>
-        <div class="pengumuman-body">${r.isi}</div>
-      </div>
+      <div class="pengumuman-content"><span class="pengumuman-category">${r.kategori}</span><div class="pengumuman-title">${r.judul}</div><div class="pengumuman-body">${r.isi}</div></div>
     </div>`).join('');
-  buildTicker(stPengumuman);
-
-  // Program statis
-  const stProgram = [
-    { ikon:'📐', kategori:'Akademik', judul:'Olimpiade Sains (OSN)', deskripsi:'Persiapan dan pembinaan intensif siswa berprestasi untuk menghadapi Olimpiade Sains Nasional tingkat kabupaten, provinsi, dan nasional.', jadwal:'Senin & Rabu, 14.00 WITA', warna:'linear-gradient(135deg,#E6F5F3,#B2DDD8)' },
-    { ikon:'⚽', kategori:'Olahraga', judul:'Sepak Bola & Futsal', deskripsi:'Pembinaan atlet muda dalam cabang olahraga sepak bola dan futsal untuk meraih prestasi di tingkat daerah dan nasional.', jadwal:'Selasa & Kamis, 15.30 WITA', warna:'linear-gradient(135deg,#FEF3C7,#FDE68A)' },
-    { ikon:'🎭', kategori:'Seni Budaya', judul:'Seni Tari & Drama', deskripsi:'Pelestarian budaya lokal NTT melalui seni tari tradisional dan pertunjukan drama yang mengangkat kearifan lokal.', jadwal:'Jumat, 13.30 WITA', warna:'linear-gradient(135deg,#FDF2F8,#F9A8D4)' },
-    { ikon:'🔬', kategori:'Sains', judul:'Karya Ilmiah Remaja (KIR)', deskripsi:'Melatih siswa berpikir ilmiah, melakukan penelitian, dan mempresentasikan karya ilmiah di berbagai kompetisi.', jadwal:'Rabu, 14.00 WITA', warna:'linear-gradient(135deg,#E0F2FE,#BAE6FD)' },
-    { ikon:'🎵', kategori:'Seni Musik', judul:'Paduan Suara & Band', deskripsi:'Pengembangan bakat musikal siswa melalui paduan suara, band sekolah, dan vokal grup untuk berbagai penampilan.', jadwal:'Sabtu, 08.00 WITA', warna:'linear-gradient(135deg,#EFF6FF,#BFDBFE)' },
-    { ikon:'🏕️', kategori:'Kepramukaan', judul:'Pramuka Penggalang', deskripsi:'Pembinaan karakter, kemandirian, dan jiwa kepemimpinan siswa melalui kegiatan pramuka yang terstruktur dan menyenangkan.', jadwal:'Sabtu, 07.00 WITA', warna:'linear-gradient(135deg,#F0FDF4,#BBF7D0)' },
-  ];
-  document.getElementById('program-grid').innerHTML = stProgram.map(r => `
+  buildTicker(stP);
+  document.getElementById('program-grid').innerHTML = [
+    {ikon:'🥁',kategori:'Seni Musik',judul:'Drum Band',deskripsi:'Wadah siswa mengembangkan bakat musik sekaligus melatih kekompakan dan disiplin.',jadwal:'Sabtu, 07.00 WITA',warna:'linear-gradient(135deg,#E6F5F3,#B2DDD8)'},
+    {ikon:'🏕️',kategori:'Kepramukaan',judul:'Pramuka',deskripsi:'Kegiatan yang membentuk karakter tangguh, mandiri, dan berjiwa kepemimpinan.',jadwal:'Jumat, 14.00 WITA',warna:'linear-gradient(135deg,#FEF3C7,#FDE68A)'},
+    {ikon:'⚽',kategori:'Olahraga',judul:'Olahraga',deskripsi:'Sarana menjaga kebugaran sekaligus menanamkan nilai sportivitas dan kerja sama.',jadwal:'Rabu, 15.00 WITA',warna:'linear-gradient(135deg,#E0F2FE,#BAE6FD)'},
+    {ikon:'🎵',kategori:'Seni Musik',judul:'Musik',deskripsi:'Tempat siswa mengekspresikan kreativitas dan mengasah bakat seni musik.',jadwal:'Kamis, 14.00 WITA',warna:'linear-gradient(135deg,#F0FDF4,#BBF7D0)'},
+  ].map((r,i) => `
     <div class="program-card reveal visible">
-      <div class="program-thumb" style="background:${r.warna};"><span style="position:relative;z-index:1;">${r.ikon}</span></div>
-      <div class="program-body">
-        <div class="program-tag">${r.kategori}</div>
-        <div class="program-title">${r.judul}</div>
-        <div class="program-desc">${r.deskripsi}</div>
-        <div class="program-meta">📅 ${r.jadwal}</div>
-      </div>
+      <div class="program-thumb" style="background:${r.warna};"><span class="program-thumb-emoji">${r.ikon}</span></div>
+      <div class="program-body"><div class="program-tag">${r.kategori}</div><div class="program-title">${r.judul}</div><div class="program-desc">${r.deskripsi}</div><div class="program-meta">📅 ${r.jadwal}</div></div>
     </div>`).join('');
-
-  // Prestasi statis
-  const stPrestasi = [
-    { medali:'🥇', event:'OSN Tingkat Kabupaten', nama:'Juara 1 Matematika', info:'Kab. Nagekeo', tahun:'2024' },
-    { medali:'🥈', event:'O2SN Tingkat Kabupaten', nama:'Juara 2 Atletik Putri', info:'Kab. Nagekeo', tahun:'2024' },
-    { medali:'🥇', event:'FLS2N Seni Tari', nama:'Juara 1 Tari Tradisional', info:'Tingkat Provinsi NTT', tahun:'2023' },
-    { medali:'🥉', event:'OSN IPA', nama:'Juara 3 IPA Terpadu', info:'Tingkat Kabupaten', tahun:'2024' },
-    { medali:'🏅', event:'Pramuka Tingkat Kwarcab', nama:'Regu Garuda Terbaik', info:'Kab. Nagekeo', tahun:'2023' },
-    { medali:'🥇', event:'Lomba Debat Bahasa Ind.', nama:'Juara 1 Debat Pelajar', info:'Tingkat Kabupaten', tahun:'2024' },
-    { medali:'🥈', event:'Kompetisi Futsal Pelajar', nama:'Runner-up Futsal SMP', info:'Kab. Nagekeo', tahun:'2024' },
-    { medali:'🏅', event:'Karya Ilmiah Remaja', nama:'Inovasi Terbaik KIR', info:'Tingkat SMP se-NTT', tahun:'2023' },
-  ];
-  document.getElementById('prestasi-grid').innerHTML = stPrestasi.map(r => `
+  document.getElementById('prestasi-grid').innerHTML = [
+    {medali:'🥇',event:'OSN Tingkat Kabupaten',nama:'Juara 1 Matematika',info:'Kab. Nagekeo',tahun:'2024'},
+    {medali:'🥈',event:'O2SN Tingkat Kabupaten',nama:'Juara 2 Atletik Putri',info:'Kab. Nagekeo',tahun:'2024'},
+    {medali:'🥇',event:'FLS2N Seni Tari',nama:'Juara 1 Tari Tradisional',info:'Tingkat Provinsi NTT',tahun:'2023'},
+    {medali:'🥉',event:'OSN IPA',nama:'Juara 3 IPA Terpadu',info:'Tingkat Kabupaten',tahun:'2024'},
+  ].map(r => `
     <div class="prestasi-card reveal visible">
       <span class="prestasi-medal">${r.medali}</span>
       <div class="prestasi-event">${r.event}</div>
       <div class="prestasi-name">${r.nama}</div>
       <div class="prestasi-info">${r.info} · ${r.tahun}</div>
     </div>`).join('');
-
-  // Guru statis
-  const stGuru = [
-    { emoji:'👨‍💼', nama:'[Nama Kepala Sekolah]', jabatan:'Kepala Sekolah', mapel:'—' },
-    { emoji:'👩‍🏫', nama:'[Guru Matematika]', jabatan:'Guru Tetap (PNS)', mapel:'Matematika' },
-    { emoji:'👨‍🏫', nama:'[Guru Bahasa Indonesia]', jabatan:'Guru Tetap (PNS)', mapel:'Bahasa Indonesia' },
-    { emoji:'👩‍🔬', nama:'[Guru IPA]', jabatan:'Guru Tetap (PNS)', mapel:'IPA Terpadu' },
-    { emoji:'👨‍🏫', nama:'[Guru IPS]', jabatan:'Guru Tetap', mapel:'Ilmu Pengetahuan Sosial' },
-    { emoji:'👩‍🏫', nama:'[Guru Bahasa Inggris]', jabatan:'Guru Tetap', mapel:'Bahasa Inggris' },
-    { emoji:'👨‍🎨', nama:'[Guru Seni Budaya]', jabatan:'Guru Tetap', mapel:'Seni Budaya & Prakarya' },
-    { emoji:'👩‍💻', nama:'[Guru TIK]', jabatan:'Guru Honorer', mapel:'Teknologi Informasi' },
-  ];
-  document.getElementById('guru-grid').innerHTML = stGuru.map(r => `
+  document.getElementById('guru-grid').innerHTML = [
+    {emoji:'👨‍💼',nama:'Anisius Panda Dora, S.Pd',jabatan:'Kepala Sekolah',mapel:'—'},
+    {emoji:'👩‍🏫',nama:'[Guru Matematika]',jabatan:'Guru Tetap (PNS)',mapel:'Matematika'},
+    {emoji:'👨‍🏫',nama:'[Guru Bahasa Indonesia]',jabatan:'Guru Tetap (PNS)',mapel:'Bahasa Indonesia'},
+    {emoji:'👩‍🔬',nama:'[Guru IPA]',jabatan:'Guru Tetap (PNS)',mapel:'IPA Terpadu'},
+  ].map(r => `
     <div class="guru-card reveal visible">
-      <div class="guru-avatar">${r.emoji}</div>
+      <div class="guru-avatar"><span class="guru-avatar-emoji">${r.emoji}</span></div>
       <div class="guru-name">${r.nama}</div>
       <div class="guru-jabatan">${r.jabatan}</div>
       <div class="guru-mapel">${r.mapel}</div>
     </div>`).join('');
 }
 
-// ── NAV SCROLL ────────────────────────────────────
+// ── NAV SCROLL ─────────────────────────────────────────
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  // Tutup menu mobile saat scroll
+  if (window.scrollY > 100) closeMenu();
 });
 
-// ── SCROLL REVEAL ─────────────────────────────────
-const revObserver = new IntersectionObserver(entries => {
+// ── SCROLL REVEAL ──────────────────────────────────────
+const revObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
       const idx = siblings.indexOf(entry.target);
       setTimeout(() => entry.target.classList.add('visible'), idx * 70);
-      revObserver.unobserve(entry.target);
+      revObs.unobserve(entry.target);
     }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-document.querySelectorAll('.reveal').forEach(el => revObserver.observe(el));
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-// ── SMOOTH SCROLL ─────────────────────────────────
+// ── SMOOTH SCROLL ──────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));
@@ -1240,9 +1302,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-
-
-// ── INIT ──────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', loadAllData);
 </script>
 </body>
