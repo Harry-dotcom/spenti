@@ -505,7 +505,7 @@ footer { background:var(--navy); padding:3.5rem 2rem 2rem; }
     <div class="hero-left">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        <span id="hero-akreditasi">Akreditasi B</span>
+        <span id="hero-akreditasi">Akreditasi A</span>
       </div>
       <h1 class="hero-title" id="hero-title">SMP Negeri 3<br><em>Aesesa</em></h1>
       <p class="hero-desc" id="hero-desc">Membentuk generasi cerdas, berkarakter, dan berdaya saing tinggi melalui pendidikan berkualitas di Kabupaten Nagekeo, Nusa Tenggara Timur.</p>
@@ -526,13 +526,13 @@ footer { background:var(--navy); padding:3.5rem 2rem 2rem; }
         <!-- Foto sekolah — diisi dari kolom foto_sekolah di sheet info -->
         <div class="school-photo" id="school-photo">
           <span class="school-photo-fallback">🏫</span>
-          <img id="school-photo-img" src="" alt="Foto Sekolah" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+          <img id="school-photo-img" src="" alt="Foto Sekolah">
         </div>
         <div class="hero-card-body">
           <div class="hero-card-name" id="hero-card-nama">SMP Negeri 3 Aesesa</div>
           <div class="hero-card-sub" id="hero-card-alamat">Kabupaten Nagekeo, NTT</div>
           <div class="hero-card-pills">
-            <span class="pill pill-teal" id="pill-akreditasi">Terakreditasi B</span>
+            <span class="pill pill-teal" id="pill-akreditasi">Terakreditasi A</span>
             <span class="pill pill-navy">Negeri</span>
             <span class="pill pill-amber">NTT</span>
           </div>
@@ -569,7 +569,7 @@ footer { background:var(--navy); padding:3.5rem 2rem 2rem; }
         <!-- Foto profil — dari kolom foto_profil di sheet info -->
         <div class="profil-img-frame" id="profil-img-frame">
           <span class="profil-img-fallback">🏫</span>
-          <img id="profil-photo-img" src="" alt="Foto Sekolah" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+          <img id="profil-photo-img" src="" alt="Foto Sekolah">
         </div>
         <div class="profil-accent-card">
           <div class="profil-accent-num" id="profil-stat-ekskul">4+</div>
@@ -806,41 +806,63 @@ const GS_URL = 'https://script.google.com/macros/s/AKfycbyGg59BgwXZc2d5aEX_Tc45N
 //   https://drive.google.com/open?id=FILE_ID
 //   https://drive.google.com/uc?id=FILE_ID
 //   URL langsung lainnya (imgbb, dll)
+// ── KONVERSI URL GOOGLE DRIVE → URL THUMBNAIL LANGSUNG ─
+// Mendukung semua format:
+//   https://drive.google.com/file/d/FILE_ID/view
+//   https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//   https://drive.google.com/open?id=FILE_ID
+//   https://drive.google.com/uc?id=FILE_ID&export=view
+//   URL langsung lainnya (imgbb, postimages, dll)
 function toDirectImageUrl(url) {
-  if (!url || url.trim() === '') return '';
+  if (!url || typeof url !== 'string') return '';
   url = url.trim();
+  if (!url) return '';
 
-  // Sudah URL langsung (bukan drive)
+  // Bukan Google Drive → kembalikan apa adanya
   if (!url.includes('drive.google.com')) return url;
 
-  // Ekstrak FILE_ID dari berbagai format Google Drive
   let fileId = '';
-  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-  if (m1) fileId = m1[1];
-  else if (m2) fileId = m2[1];
 
-  if (!fileId) return url; // Tidak bisa diparse, kembalikan apa adanya
+  // Format 1: /file/d/FILE_ID/  (paling umum, termasuk yang ada ?usp=sharing)
+  // Regex: ambil semua karakter sampai / atau ? atau akhir string
+  const m1 = url.match(/\/file\/d\/([^\/\?&#]+)/);
+  // Format 2: ?id=FILE_ID atau &id=FILE_ID
+  const m2 = url.match(/[?&]id=([^&\?#\/]+)/);
 
-  // Format thumbnail Google Drive — tidak butuh login, bebas CORS
+  if (m1 && m1[1]) fileId = m1[1];
+  else if (m2 && m2[1]) fileId = m2[1];
+
+  if (!fileId) return url;
+
+  // Gunakan endpoint thumbnail — tidak perlu login, tidak kena CORS
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
 }
 
 // ── PASANG FOTO KE ELEMEN IMG ──────────────────────────
-function setPhoto(imgId, url, fallbackEl) {
-  const img = document.getElementById(imgId);
+// fallbackSel: CSS selector elemen emoji/teks yang disembunyikan jika foto berhasil
+function setPhoto(imgId, url, fallbackSel) {
+  const img    = document.getElementById(imgId);
   const direct = toDirectImageUrl(url);
   if (!img || !direct) return;
-  img.src = direct;
-  img.onload = () => {
+
+  // Hapus handler inline dulu agar tidak dobel
+  img.removeAttribute('onload');
+  img.removeAttribute('onerror');
+
+  img.onload  = () => {
     img.classList.add('loaded');
-    // Sembunyikan fallback emoji kalau foto berhasil
-    if (fallbackEl) {
-      const fb = document.querySelector(fallbackEl);
-      if (fb) fb.style.display = 'none';
+    if (fallbackSel) {
+      document.querySelectorAll(fallbackSel).forEach(el => el.style.display = 'none');
     }
   };
-  img.onerror = () => { img.style.display = 'none'; };
+  img.onerror = () => {
+    // Coba fallback via uc?export=view jika thumbnail gagal
+    const fbUrl = direct.replace('thumbnail?', 'uc?export=view&');
+    if (img.src !== fbUrl) { img.src = fbUrl; return; }
+    img.style.display = 'none';
+  };
+
+  img.src = direct;
 }
 
 // ── HAMBURGER MENU ─────────────────────────────────────
@@ -1004,6 +1026,20 @@ function buildTicker(rows) {
     .map(t => `<span class="ticker-item"><span class="ticker-sep">◆</span>${t}</span>`).join('');
 }
 
+// ── HELPER: buat tag <img> yang auto-fallback ──────────
+// Jika thumbnail gagal, coba uc?export=view; jika tetap gagal sembunyikan
+function imgTag(url, alt, cssClass) {
+  const direct = toDirectImageUrl(url);
+  if (!direct) return '';
+  const cls = cssClass ? ` class="${cssClass}"` : '';
+  return `<img src="${direct}" alt="${alt || ''}"${cls}
+    onload="this.classList.add('loaded')"
+    onerror="(function(el){
+      var fb=el.src.replace('thumbnail?','uc?export=view&');
+      if(el.src!==fb){el.src=fb;}else{el.style.display='none';}
+    })(this)">`;
+}
+
 // ── LOAD PROGRAM ───────────────────────────────────────
 const BG = ['linear-gradient(135deg,#E6F5F3,#B2DDD8)','linear-gradient(135deg,#FEF3C7,#FDE68A)','linear-gradient(135deg,#E0F2FE,#BAE6FD)','linear-gradient(135deg,#F0FDF4,#BBF7D0)','linear-gradient(135deg,#FDF4FF,#E9D5FF)','linear-gradient(135deg,#FFF7ED,#FED7AA)'];
 
@@ -1015,10 +1051,8 @@ async function loadProgram() {
     const bg = r.warna || BG[i % BG.length];
     return `
     <div class="program-card reveal visible">
-      <div class="program-thumb" style="background:${hasFoto ? '#f0f4f7' : bg};">
-        ${hasFoto
-          ? `<img src="${toDirectImageUrl(r.foto)}" alt="${r.judul}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
-          : ''}
+      <div class="program-thumb" style="background:${hasFoto ? '#e8f0f5' : bg};">
+        ${hasFoto ? imgTag(r.foto, r.judul) : ''}
         <span class="program-thumb-emoji">${hasFoto ? '' : (r.ikon || '📚')}</span>
       </div>
       <div class="program-body">
@@ -1125,7 +1159,7 @@ async function loadGaleri() {
     <div class="galeri-item ${cls}" style="background:${hasFoto ? '#0D2B3E' : bg};"
          onclick="${hasFoto ? `openLightbox(${lbIdx})` : ''}">
       ${hasFoto
-        ? `<img src="${url}" alt="${judul}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
+        ? imgTag(url, judul)
         : `<span>${emoji}</span>`
       }
       <div class="galeri-overlay"><span class="galeri-overlay-text">${judul}</span></div>
@@ -1173,7 +1207,7 @@ async function loadGuru() {
     <div class="guru-card reveal visible">
       <div class="guru-avatar">
         ${hasFoto
-          ? `<img src="${toDirectImageUrl(r.foto)}" alt="${r.nama}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`
+          ? imgTag(r.foto, r.nama)
           : ''}
         <span class="guru-avatar-emoji" ${hasFoto ? 'style="display:none"' : ''}>${r.emoji || '👤'}</span>
       </div>
