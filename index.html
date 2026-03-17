@@ -112,8 +112,41 @@ nav.scrolled { height: 56px; background: rgba(255,255,255,0.99); box-shadow: var
   position: relative; display: flex; align-items: center;
   overflow: hidden;
   background: linear-gradient(135deg, #EFF6F4 0%, #E8F4F1 50%, #F0F6FA 100%);
+  transition: background 0.5s;
 }
-.hero-geo { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+/* Layer foto background hero — aktif jika foto_bg diisi di sheet info */
+#hero-bg-photo {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  display: none; opacity: 0;
+  transition: opacity 0.8s ease;
+}
+#hero-bg-photo.loaded { display: block; opacity: 1; }
+/* Overlay gelap di atas foto background */
+#hero-bg-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(13,43,62,0.72) 0%,
+    rgba(10,80,65,0.60) 50%,
+    rgba(13,43,62,0.55) 100%
+  );
+  display: none;
+}
+.hero.has-bg-photo #hero-bg-overlay { display: block; }
+/* Saat ada foto background, teks hero jadi putih */
+.hero.has-bg-photo .hero-title        { color: white; }
+.hero.has-bg-photo .hero-title em     { color: var(--teal-mid); }
+.hero.has-bg-photo .hero-desc         { color: rgba(255,255,255,0.85); }
+.hero.has-bg-photo .hero-badge        { background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3); }
+.hero.has-bg-photo .hero-badge-dot    { background: white; }
+.hero.has-bg-photo .hero-stat-num     { color: var(--teal-mid); }
+.hero.has-bg-photo .hero-stat-label   { color: rgba(255,255,255,0.7); }
+.hero.has-bg-photo .hero-stats        { border-top-color: rgba(255,255,255,0.2); }
+.hero.has-bg-photo .btn-outline       { background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.4); }
+.hero.has-bg-photo .btn-outline:hover { background: rgba(255,255,255,0.25); }
+
+.hero-geo { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .hero-geo-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(10,124,110,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(10,124,110,0.04) 1px, transparent 1px); background-size: 48px 48px; }
 .hero-geo-blob1 { position: absolute; top: -100px; right: -100px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(10,124,110,0.07) 0%, transparent 70%); }
 .hero-geo-blob2 { position: absolute; bottom: -80px; left: -60px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(13,43,62,0.04) 0%, transparent 70%); }
@@ -181,9 +214,15 @@ nav.scrolled { height: 56px; background: rgba(255,255,255,0.99); box-shadow: var
   background: linear-gradient(135deg, var(--teal-pale), #D4EDE9);
   position: relative;
 }
-.school-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
-.school-photo img.loaded { display: block; }
-.school-photo-fallback { font-size: 5rem; position: absolute; }
+.school-photo img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 0.6s ease;
+}
+.school-photo img.loaded { opacity: 1; }
+.school-photo-fallback { font-size: 5rem; position: absolute; transition: opacity 0.4s; z-index: 1; }
+.school-photo img.loaded + .school-photo-fallback,
+.school-photo .school-photo-fallback.hidden { opacity: 0; pointer-events: none; }
 .hero-card-body { padding: 1.5rem; }
 .hero-card-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
 .hero-card-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
@@ -238,9 +277,9 @@ section { padding: 4.5rem 2rem; }
   background: linear-gradient(135deg, var(--teal-pale), #DCF0ED);
   display: flex; align-items: center; justify-content: center;
 }
-.profil-img-frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
-.profil-img-frame img.loaded { display:block; }
-.profil-img-fallback { font-size: 5rem; }
+.profil-img-frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.6s ease; }
+.profil-img-frame img.loaded { opacity:1; }
+.profil-img-fallback { font-size: 5rem; transition: opacity 0.4s; position: relative; z-index: 1; }
 .profil-img-frame::after { content:''; position:absolute; bottom:0; left:0; right:0; height:35%; background:linear-gradient(to top,rgba(10,124,110,0.12),transparent); pointer-events:none; }
 
 .profil-accent-card { position:absolute; bottom:-18px; right:-18px; background:white; border-radius:12px; padding:1rem 1.3rem; box-shadow:var(--shadow-lg); border:1px solid var(--border); text-align:center; }
@@ -495,6 +534,9 @@ footer { background:var(--navy); padding:3.5rem 2rem 2rem; }
 
 <!-- ── HERO ── -->
 <section class="hero" id="home">
+  <!-- Foto background hero (opsional — dari kolom foto_bg di sheet info) -->
+  <img id="hero-bg-photo" src="" alt="">
+  <div id="hero-bg-overlay"></div>
   <div class="hero-geo">
     <div class="hero-geo-lines"></div>
     <div class="hero-geo-blob1"></div>
@@ -839,29 +881,50 @@ function toDirectImageUrl(url) {
 }
 
 // ── PASANG FOTO KE ELEMEN IMG ──────────────────────────
-// fallbackSel: CSS selector elemen emoji/teks yang disembunyikan jika foto berhasil
 function setPhoto(imgId, url, fallbackSel) {
   const img    = document.getElementById(imgId);
   const direct = toDirectImageUrl(url);
   if (!img || !direct) return;
 
-  // Hapus handler inline dulu agar tidak dobel
   img.removeAttribute('onload');
   img.removeAttribute('onerror');
 
-  img.onload  = () => {
+  img.onload = () => {
     img.classList.add('loaded');
+    // Sembunyikan semua fallback yang cocok
     if (fallbackSel) {
-      document.querySelectorAll(fallbackSel).forEach(el => el.style.display = 'none');
+      document.querySelectorAll(fallbackSel).forEach(el => {
+        el.classList.add('hidden');
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'none';
+      });
     }
   };
   img.onerror = () => {
-    // Coba fallback via uc?export=view jika thumbnail gagal
+    // Coba uc?export=view sebagai fallback
     const fbUrl = direct.replace('thumbnail?', 'uc?export=view&');
     if (img.src !== fbUrl) { img.src = fbUrl; return; }
     img.style.display = 'none';
   };
 
+  img.src = direct;
+}
+
+// ── PASANG FOTO BACKGROUND HERO ────────────────────────
+function setHeroBg(url) {
+  const direct = toDirectImageUrl(url);
+  if (!direct) return;
+  const img = document.getElementById('hero-bg-photo');
+  const hero = document.getElementById('home');
+  if (!img) return;
+  img.onload = () => {
+    img.classList.add('loaded');
+    hero.classList.add('has-bg-photo');
+  };
+  img.onerror = () => {
+    const fbUrl = direct.replace('thumbnail?', 'uc?export=view&');
+    if (img.src !== fbUrl) { img.src = fbUrl; return; }
+  };
   img.src = direct;
 }
 
@@ -967,27 +1030,37 @@ async function loadInfo() {
   set('footer-desc',         info.footer_desc);
   set('footer-copy',         info.footer_copy);
 
-  // ── FOTO SEKOLAH ──
-  // Kolom foto_sekolah  → foto di hero card & nav logo
-  // Kolom foto_profil   → foto di bagian Profil
-  // Bisa pakai URL Google Drive (share link) atau URL langsung (imgbb, dll)
-  if (info.foto_sekolah) {
-    setPhoto('school-photo-img', info.foto_sekolah, '#school-photo .school-photo-fallback');
-    // Nav logo juga pakai foto
-    const logoBox = document.getElementById('nav-logo-box');
-    const logoEmoji = logoBox.querySelector('.nav-logo-emoji');
-    const logoImg = document.createElement('img');
-    logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:6px;display:none;';
-    logoImg.onload = () => { logoImg.style.display = 'block'; if(logoEmoji) logoEmoji.style.display='none'; };
-    logoImg.onerror = () => {};
-    logoImg.src = toDirectImageUrl(info.foto_sekolah);
-    logoBox.appendChild(logoImg);
+  // ── FOTO SEKOLAH ───────────────────────────────────────
+  // foto_bg       → foto background hero section (dengan overlay gelap)
+  // foto_sekolah  → foto di hero card & nav logo
+  // foto_profil   → foto di bagian Profil (jika kosong, pakai foto_sekolah)
+  // Semua support URL Google Drive (share link) atau URL langsung
+
+  if (info.foto_bg) {
+    setHeroBg(info.foto_bg);
   }
+
+  if (info.foto_sekolah) {
+    setPhoto('school-photo-img', info.foto_sekolah, '.school-photo-fallback');
+    // Nav logo
+    const logoBox   = document.getElementById('nav-logo-box');
+    const logoEmoji = logoBox ? logoBox.querySelector('.nav-logo-emoji') : null;
+    const logoImg   = document.createElement('img');
+    logoImg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:6px;opacity:0;transition:opacity 0.4s;';
+    logoImg.onload  = () => { logoImg.style.opacity='1'; if (logoEmoji) logoEmoji.style.opacity='0'; };
+    logoImg.onerror = () => {
+      const fb = logoImg.src.replace('thumbnail?','uc?export=view&');
+      if (logoImg.src !== fb) { logoImg.src = fb; } else { logoImg.remove(); }
+    };
+    logoImg.src = toDirectImageUrl(info.foto_sekolah);
+    if (logoBox) { logoBox.style.position='relative'; logoBox.appendChild(logoImg); }
+  }
+
+  // Foto profil
   if (info.foto_profil) {
-    setPhoto('profil-photo-img', info.foto_profil, '#profil-img-frame .profil-img-fallback');
+    setPhoto('profil-photo-img', info.foto_profil, '.profil-img-fallback');
   } else if (info.foto_sekolah) {
-    // Fallback: pakai foto_sekolah juga untuk profil
-    setPhoto('profil-photo-img', info.foto_sekolah, '#profil-img-frame .profil-img-fallback');
+    setPhoto('profil-photo-img', info.foto_sekolah, '.profil-img-fallback');
   }
 
   // Links
